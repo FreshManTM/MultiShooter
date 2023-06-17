@@ -14,7 +14,6 @@ public class SkeletonEnemy : Enemy
     [SerializeField] float attacsTimer;
     bool isOnHitRange;
 
-    GameObject player;
     private void Update()
     {
         if (attacsTimer > 0)
@@ -78,7 +77,7 @@ public class SkeletonEnemy : Enemy
     public override void TakeDamage(float damage)
     {
         health -= damage;
-        if (health <= 0)
+        if (health <= 0 && !isDead)
         {
             isDead = true;
             anim.SetBool("Dead", true);

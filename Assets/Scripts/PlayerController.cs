@@ -7,29 +7,26 @@ public class PlayerController : MonoBehaviour
 {
     Rigidbody2D rb;
     Vector2 moveDirection;
-    Vector2 moveInput;
-    Vector2 moveInputJ;
     [SerializeField] float moveSpeed = 10f;
     [SerializeField] Joystick joystick;
     SpriteRenderer spriter;
-    PlayerInput playerInput;
    
     [SerializeField] InputActionReference movement;
 
     [SerializeField] float health;
     [SerializeField] float maxHealth;
+    Animator anim;
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
-        playerInput = GetComponent<PlayerInput>();
         spriter = GetComponent<SpriteRenderer>();
+        anim = GetComponent<Animator>();
         health = maxHealth;
     }
 
     private void Update()
     {
-        moveDirection = new Vector2(joystick.Horizontal, joystick.Vertical);
-        //moveDirection = new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical"));
+        //moveDirection = new Vector2(joystick.Horizontal, joystick.Vertical);
         if (moveDirection.x != 0)
         {
             spriter.flipX = moveDirection.x < 0;
@@ -41,15 +38,13 @@ public class PlayerController : MonoBehaviour
         Vector2 nextVec = moveDirection.normalized * moveSpeed* Time.fixedDeltaTime;
         rb.MovePosition(rb.position + nextVec);
     }
-    //Vector2 keepV;
-    //void OnMove(InputValue value)
-    //{
-    //    print("MOVING!!!");
-    //    keepV = value.Get<Vector2>();
-    //    moveDirection = value.Get<Vector2>();
+    void OnMove(InputValue value)
+    {
+        print("move direction " + moveDirection);
+        moveDirection = value.Get<Vector2>();
+        anim.SetFloat("Speed", moveDirection.magnitude);
 
-    //}
-
+    }
     public void TakeDamage(float damage)
     {
         if(health > 0)

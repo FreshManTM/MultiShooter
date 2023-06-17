@@ -17,6 +17,5 @@ MonoBehaviour:
   Distance: 50
   MagazineSize: 30
   TimeBetweenShots: 0.2
-  ReloadTime: 2
-  AllowButtonHold: 0
+  ReloadTime: 5
   BulletPrefab: {fileID: 4122565992612807282, guid: 00818f04400b8354c96f7dbafdd74b81, type: 3}

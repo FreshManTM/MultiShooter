@@ -15,8 +15,7 @@ MonoBehaviour:
   Type: 2
   Damage: 30
   Distance: 30
-  MagazineSize: 16
+  MagazineSize: 18
   TimeBetweenShots: 2
   ReloadTime: 2
-  AllowButtonHold: 1
   BulletPrefab: {fileID: 4122565992612807282, guid: 00818f04400b8354c96f7dbafdd74b81, type: 3}

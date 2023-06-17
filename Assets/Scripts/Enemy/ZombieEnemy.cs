@@ -13,7 +13,6 @@ class ZombieEnemy : Enemy
 
     [SerializeField]float attacsTimer;
     bool isOnHitRange;
-    GameObject player;
 
     private void Update()
     {
@@ -48,7 +47,7 @@ class ZombieEnemy : Enemy
     public override void Attack()
     {
         print("player hitted");
-        player.GetComponent<PlayerController>().TakeDamage(zombieData.Damage);
+        target.gameObject.GetComponent<PlayerController>().TakeDamage(zombieData.Damage);
         attacsTimer = zombieData.TimeBetweenAttacks;
     }
 
@@ -68,7 +67,7 @@ class ZombieEnemy : Enemy
     public override void TakeDamage(float damage)
     {     
         health -= damage;
-        if (health <= 0)
+        if (health <= 0 && !isDead)
         {
             isDead = true;
             anim.SetBool("Dead", true);
@@ -85,7 +84,6 @@ class ZombieEnemy : Enemy
         if (collision.gameObject.CompareTag("Player"))
         {
             isOnHitRange = true;
-            player = collision.gameObject;
         }
     }
     private void OnCollisionExit2D(Collision2D collision)

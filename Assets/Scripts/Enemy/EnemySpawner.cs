@@ -14,7 +14,7 @@ public class EnemySpawner : MonoBehaviour
     [SerializeField] Transform[] spawnPoints;
     [SerializeField]float spawnTimer;
 
-    EnemyFactory zombieFactory;
+    EnemyFactory enemyFactory;
     private void Update()
     {
 
@@ -22,10 +22,10 @@ public class EnemySpawner : MonoBehaviour
         {
             spawnTimer = spawnTime;
             //zombieFactory = new NormalZombieFactory(pool, gm, player, data[0]);
-            zombieFactory = new PumpedZombieFactory(pool, gm, player, data[1]);
-            //zombieFactory = new SkeletonFactory(pool, gm, player, data[2]);
+            //zombieFactory = new PumpedZombieFactory(pool, gm, player, data[1]);
+            enemyFactory = new SkeletonFactory(pool, gm, player, data[2]);
 
-            zombieFactory.Spawn(spawnPoints[Random.Range(0, spawnPoints.Length)].position);
+            enemyFactory.Spawn(spawnPoints[Random.Range(0, spawnPoints.Length)].position);
         }
         else
         {

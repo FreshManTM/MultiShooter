@@ -19,7 +19,7 @@ public class GunData : ScriptableObject
     public int MagazineSize;
     public float TimeBetweenShots;
     public float ReloadTime;
-    public bool AllowButtonHold;
     [Header("Assign Area")]
     public GameObject BulletPrefab;
+    public Sprite GunSprite;
 }
