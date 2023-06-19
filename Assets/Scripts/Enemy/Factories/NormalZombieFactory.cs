@@ -19,8 +19,10 @@ public class NormalZombieFactory : EnemyFactory
     }
     public override void Spawn(Vector3 spawnPos)
     {
-        zombie = pool.GetEnemy();
-        ZombieEnemy component = zombie.AddComponent<ZombieEnemy>();
+        zombie = pool.Get(0);
+        ZombieEnemy component = zombie.GetComponent<ZombieEnemy>();
+        if (component == null)
+            component = zombie.AddComponent<ZombieEnemy>();
         component.Init(player, gm, data, spawnPos);
     }
 }

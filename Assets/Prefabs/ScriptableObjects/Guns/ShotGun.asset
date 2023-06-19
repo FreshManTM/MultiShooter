@@ -16,6 +16,7 @@ MonoBehaviour:
   Damage: 30
   Distance: 30
   MagazineSize: 18
-  TimeBetweenShots: 2
+  TimeBetweenShots: 1.5
   ReloadTime: 2
   BulletPrefab: {fileID: 4122565992612807282, guid: 00818f04400b8354c96f7dbafdd74b81, type: 3}
+  GunSprite: {fileID: 1772703093, guid: 0d5e657ee5a074e4baa53d5b248a01d2, type: 3}

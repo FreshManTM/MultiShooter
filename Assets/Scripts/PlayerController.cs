@@ -8,11 +8,8 @@ public class PlayerController : MonoBehaviour
     Rigidbody2D rb;
     Vector2 moveDirection;
     [SerializeField] float moveSpeed = 10f;
-    [SerializeField] Joystick joystick;
     SpriteRenderer spriter;
    
-    [SerializeField] InputActionReference movement;
-
     [SerializeField] float health;
     [SerializeField] float maxHealth;
     Animator anim;
@@ -26,7 +23,6 @@ public class PlayerController : MonoBehaviour
 
     private void Update()
     {
-        //moveDirection = new Vector2(joystick.Horizontal, joystick.Vertical);
         if (moveDirection.x != 0)
         {
             spriter.flipX = moveDirection.x < 0;
@@ -34,13 +30,12 @@ public class PlayerController : MonoBehaviour
     }
     private void FixedUpdate()
     {
-        //rb.velocity = new Vector2(moveDirection.x * moveSpeed, moveDirection.y * moveSpeed);
-        Vector2 nextVec = moveDirection.normalized * moveSpeed* Time.fixedDeltaTime;
-        rb.MovePosition(rb.position + nextVec);
+        rb.velocity = new Vector2(moveDirection.x * moveSpeed, moveDirection.y * moveSpeed);
+        //Vector2 nextVec = moveDirection.normalized * moveSpeed* Time.fixedDeltaTime;
+        //rb.MovePosition(rb.position + nextVec);
     }
     void OnMove(InputValue value)
     {
-        print("move direction " + moveDirection);
         moveDirection = value.Get<Vector2>();
         anim.SetFloat("Speed", moveDirection.magnitude);
 
@@ -55,5 +50,9 @@ public class PlayerController : MonoBehaviour
         {
             print("Player is dead");
         }
+    }
+    public void AddHealth(float heal)
+    {
+        health += heal;
     }
 }

@@ -19,9 +19,11 @@ public class PumpedZombieFactory : EnemyFactory
     }
     public override void Spawn(Vector3 spawnPos)
     {
-        zombie = pool.GetEnemy();
+        zombie = pool.Get(0);
         zombie.transform.localScale = new Vector3(1.5f, 1.5f, 1.5f);
-        ZombieEnemy component = zombie.AddComponent<ZombieEnemy>();
+        ZombieEnemy component = zombie.GetComponent<ZombieEnemy>();
+        if (component == null)
+            component = zombie.AddComponent<ZombieEnemy>();
         component.Init(player, gm, data, spawnPos);
     }
 }

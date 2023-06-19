@@ -12,10 +12,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4d157fc234c87b3499cef1125a5647b5, type: 3}
   m_Name: Machine Gun
   m_EditorClassIdentifier: 
-  Type: 0
+  Type: 1
   Damage: 20
   Distance: 50
   MagazineSize: 30
   TimeBetweenShots: 0.2
   ReloadTime: 5
   BulletPrefab: {fileID: 4122565992612807282, guid: 00818f04400b8354c96f7dbafdd74b81, type: 3}
+  GunSprite: {fileID: -144335857, guid: 0d5e657ee5a074e4baa53d5b248a01d2, type: 3}

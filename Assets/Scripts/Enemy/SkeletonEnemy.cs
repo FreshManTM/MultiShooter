@@ -5,7 +5,7 @@ using UnityEngine;
 public class SkeletonEnemy : Enemy
 {
     [SerializeField] float health;
-    bool isDead;
+    [SerializeField]bool isDead;
     Transform target;
     Animator anim;
     GameManager gm;
@@ -29,7 +29,10 @@ public class SkeletonEnemy : Enemy
     private void FixedUpdate()
     {
         if (!isDead)
+        {
+            Flip(target);
             Move(target);
+        }
     }
     public void Init(Transform target, GameManager gm, EnemyData data, Vector3 spawnPos, PoolManager pool)
     {
@@ -43,16 +46,30 @@ public class SkeletonEnemy : Enemy
         anim = GetComponent<Animator>();
 
         anim.runtimeAnimatorController = data.AnimatorController;
+        isDead = false;
     }
     public override void Attack()
     {
         attacsTimer = data.TimeBetweenAttacks;
-        GameObject bullet = pool.GetBullet(1);
+        GameObject bullet = pool.Get(2);
         bullet.transform.position = transform.position;
         bullet.GetComponent<SkeletonBullet>().Init(target.position, data.Damage);
     }
 
     public override void Move(Transform target)
+    {
+        if (Vector3.Distance(transform.position, target.transform.position) > 5)
+        {
+            isOnHitRange = false;
+            transform.position = Vector2.MoveTowards(transform.position, target.position, (data.MoveSpeed / 10) * Time.fixedDeltaTime);
+        }
+        else
+        {
+            isOnHitRange = true;
+        }
+    }
+
+    private void Flip(Transform target)
     {
         if (target.transform.position.x < transform.position.x)
         {
@@ -62,15 +79,6 @@ public class SkeletonEnemy : Enemy
         {
             transform.eulerAngles = new Vector3(0, 0, 0);
 
-        }
-        if (Vector3.Distance(transform.position, target.transform.position) > 5)
-        {
-            isOnHitRange = false;
-            transform.position = Vector2.MoveTowards(transform.position, target.position, (data.MoveSpeed / 10) * Time.fixedDeltaTime);
-        }
-        else
-        {
-            isOnHitRange = true;
         }
     }
 

@@ -21,8 +21,8 @@ public class EnemySpawner : MonoBehaviour
         if(spawnTimer <= 0)
         {
             spawnTimer = spawnTime;
-            //zombieFactory = new NormalZombieFactory(pool, gm, player, data[0]);
-            //zombieFactory = new PumpedZombieFactory(pool, gm, player, data[1]);
+            //enemyFactory = new NormalZombieFactory(pool, gm, player, data[0]);
+            //enemyFactory = new PumpedZombieFactory(pool, gm, player, data[1]);
             enemyFactory = new SkeletonFactory(pool, gm, player, data[2]);
 
             enemyFactory.Spawn(spawnPoints[Random.Range(0, spawnPoints.Length)].position);

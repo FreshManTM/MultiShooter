@@ -2,63 +2,47 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-
+/*
+    Prefabs MUST be assigned in the following order:
+    0) Enemy
+    1) Player Bullet
+    2) Skeleton Bullet
+    3) Grenade
+    4) Medkit
+    5) Ammo Boxes
+ */
 public class PoolManager : MonoBehaviour
 {
-    [SerializeField] GameObject EnemyPrefabs;
-    [SerializeField] GameObject[] BulletPrefab;
+    [SerializeField] GameObject[] Prefabs;
 
-    List<GameObject> enemyPool;
-    List<GameObject>[] bulletPool;
+    List<GameObject>[] prefabPool;
 
     void Awake()
     {
-        bulletPool = new List<GameObject>[BulletPrefab.Length];
-        enemyPool = new List<GameObject>();
+        prefabPool = new List<GameObject>[Prefabs.Length];
 
-        for (int i = 0; i < bulletPool.Length; i++)
+        for (int i = 0; i < prefabPool.Length; i++)
         {
-            bulletPool[i] = new List<GameObject>();
+            prefabPool[i] = new List<GameObject>();
         }
     }
-
-    public GameObject GetEnemy()
+    public GameObject Get(int index)
     {
         GameObject select = null;
-
-        foreach (GameObject item in enemyPool) {
-            if (!item.activeSelf) {
-                select = item;
-                select.SetActive(true);
-                break;
-            }
-        }
-
-        if (!select) {
-            select = Instantiate(EnemyPrefabs, transform);
-            enemyPool.Add(select);
-        }
-
-        return select;
-    }
-    public GameObject GetBullet(int index)
-    {
-        GameObject select = null;
-        foreach (GameObject item in bulletPool[index])
+        foreach (GameObject item in prefabPool[index])
         {
             if (!item.activeSelf)
             {
                 select = item;
                 select.SetActive(true);
-                print("get " + select.name);
                 break;
             }
         }
 
         if (!select)
         {
-            select = Instantiate(BulletPrefab[index], transform);
-            bulletPool[index].Add(select);
+            select = Instantiate(Prefabs[index], transform);
+            prefabPool[index].Add(select);
         }
 
         return select;

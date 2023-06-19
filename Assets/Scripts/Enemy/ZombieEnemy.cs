@@ -43,6 +43,7 @@ class ZombieEnemy : Enemy
         anim = GetComponent<Animator>();
 
         anim.runtimeAnimatorController = data.AnimatorController;
+        isDead = false;
     }
     public override void Attack()
     {
@@ -67,6 +68,7 @@ class ZombieEnemy : Enemy
     public override void TakeDamage(float damage)
     {     
         health -= damage;
+        print("Take damage " + damage);
         if (health <= 0 && !isDead)
         {
             isDead = true;

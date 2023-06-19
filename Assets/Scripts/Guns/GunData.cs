@@ -9,7 +9,8 @@ public class GunData : ScriptableObject
     {
         SawedOff,
         MachineGun,
-        ShotGun
+        ShotGun,
+        Grenade
     }
     [Header("Info")]
     public GunType Type;
