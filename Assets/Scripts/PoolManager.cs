@@ -1,50 +1,36 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Fusion;
 
 /*
     Prefabs MUST be assigned in the following order:
-    0) Enemy
-    1) Player Bullet
-    2) Skeleton Bullet
-    3) Grenade
-    4) Medkit
-    5) Ammo Boxes
+    0) Player Bullet
+    1) Skeleton Bullet
+    2) Grenade
+    3) Medkit
+    4) Ammo Boxes
  */
-public class PoolManager : MonoBehaviour
+public class PoolManager : NetworkBehaviour
 {
-    [SerializeField] GameObject[] Prefabs;
+    [SerializeField] GameObject[] resourcePrefabs;
+    [SerializeField] GameObject[] enemyPrefabs;
+    [SerializeField] Transform[] spawnPoints;
+    [SerializeField] GameManager gm;
 
-    List<GameObject>[] prefabPool;
+    GameObject select;
 
-    void Awake()
+    public GameObject SpawnResource(int index)
     {
-        prefabPool = new List<GameObject>[Prefabs.Length];
-
-        for (int i = 0; i < prefabPool.Length; i++)
-        {
-            prefabPool[i] = new List<GameObject>();
-        }
+        Vector2 spawnPos = new Vector2(Random.Range(0, 10), Random.Range(0, 10));
+        select = Runner.Spawn(resourcePrefabs[index], spawnPos, Quaternion.identity, Object.InputAuthority).gameObject;
+        print("Resource spawned");
+        return select;
     }
-    public GameObject Get(int index)
+    public GameObject EnemySpawn(int index)
     {
-        GameObject select = null;
-        foreach (GameObject item in prefabPool[index])
-        {
-            if (!item.activeSelf)
-            {
-                select = item;
-                select.SetActive(true);
-                break;
-            }
-        }
-
-        if (!select)
-        {
-            select = Instantiate(Prefabs[index], transform);
-            prefabPool[index].Add(select);
-        }
-
+        select = Runner.Spawn(enemyPrefabs[index], Vector2.zero, Quaternion.identity, Object.InputAuthority).gameObject;
+        select.GetComponent<Enemy>().Init(gm, spawnPoints[Random.Range(0, spawnPoints.Length)].position);
         return select;
     }
 }

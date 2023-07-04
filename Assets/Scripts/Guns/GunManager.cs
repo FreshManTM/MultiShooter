@@ -2,12 +2,13 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using Fusion;
 
-public class GunManager : MonoBehaviour
+public class GunManager : NetworkBehaviour
 {
     enum Platform{PC, ANDROID}
     [SerializeField] Platform platform;
-    [SerializeField] GunData[] gunData;
+   // [SerializeField] GunData[] gunData;
     GunData prevGunData;
     [SerializeField] GunData currentGunData;
     [SerializeField] Transform muzzle;
@@ -18,23 +19,25 @@ public class GunManager : MonoBehaviour
     [SerializeField] int ammo;
     [SerializeField]float shotsTimer;
     
-    bool reloading;
-    bool shooting;
     bool flip;
     bool isFlipped;
-    
+    GameManager gm;
     Vector3 offset = new Vector3(0, 0, -90);
     Gun gun;
     void Awake()
     {
-        gunSprite = GetComponent<SpriteRenderer>();
-        InitGun(gunData[0]);
+        gunSprite = GetComponentInChildren<SpriteRenderer>();
+        shootJoystick = GameObject.Find("Shooting Joystick").GetComponentInChildren<Joystick>();
+        pool = FindObjectOfType<PoolManager>();
+        gm = FindObjectOfType<GameManager>();
     }
-    void Update()
+
+    public override void FixedUpdateNetwork()
     {
+        if (!Object.HasInputAuthority)
+            return;
         FollowGun(transform);
         Flip();
-        print(currentGunData);
         if(shotsTimer <= 0)
         {
             if (platform == Platform.PC && Input.GetKey(KeyCode.Mouse0))
@@ -47,15 +50,10 @@ public class GunManager : MonoBehaviour
                 Shoot();
                 shotsTimer = currentGunData.TimeBetweenShots;
             }
-            else
-            {
-                shooting = false;
-
-            }
         }
         else
         {
-            shotsTimer -= Time.deltaTime;
+            shotsTimer -= Time.fixedDeltaTime;
         }
     }
 
@@ -63,7 +61,7 @@ public class GunManager : MonoBehaviour
     {
         prevGunData = currentGunData;
         currentGunData = data;
-        gunSprite.sprite = currentGunData.GunSprite;
+        //gunSprite.sprite = currentGunData.GunSprite;
         ammo = currentGunData.MagazineSize;
         shotsTimer = 0;
         GetComponentInChildren<BoxCollider2D>().size = new Vector2(currentGunData.Distance, currentGunData.Distance);
@@ -113,7 +111,7 @@ public class GunManager : MonoBehaviour
                     {
                         if (ammo >= 3)
                         {
-                            currentGunData = gunData[0];
+                            currentGunData = gm.GetGunData(0);
                             gun = new ShotGun(pool, muzzle, currentGunData);
                             gun.Shoot();
                             ammo -= 3;
@@ -122,7 +120,7 @@ public class GunManager : MonoBehaviour
                     }
                 case GunData.GunType.SawedOff:
                     {
-                        currentGunData = gunData[1];
+                        currentGunData = gm.GetGunData(1);
                         gun = new SawedOffGun(pool, muzzle, currentGunData);
                         gun.Shoot();
                         ammo--;
@@ -130,7 +128,7 @@ public class GunManager : MonoBehaviour
                     }
                 case GunData.GunType.MachineGun:
                     {
-                        currentGunData = gunData[2];
+                        currentGunData = gm.GetGunData(2);
                         gun = new MachineGun(pool, muzzle, currentGunData);
                         gun.Shoot();
                         ammo--;
@@ -147,22 +145,6 @@ public class GunManager : MonoBehaviour
             }
         }
     }
-    IEnumerator Reload()
-    {
-        if(ammo < currentGunData.MagazineSize)
-        {
-            reloading = true;
-            ammo++;
-            yield return new WaitForSeconds(currentGunData.ReloadTime / currentGunData.MagazineSize);
-            StartCoroutine(Reload());
-        }
-        else
-        {
-            reloading = false;
-            yield return null;
-        }
-
-    }
     public int[] GetAmmo()
     {
         int[] magazine = new int[2];
@@ -173,5 +155,7 @@ public class GunManager : MonoBehaviour
     public void AddAmmo(int ammo)
     {
         this.ammo += ammo;
+        if (this.ammo > currentGunData.MagazineSize)
+            this.ammo = currentGunData.MagazineSize;
     }
 }

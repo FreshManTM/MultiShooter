@@ -6,6 +6,6 @@ public class AmmoBox : Resource
 {
     public override void Action(GameObject player)
     {
-        player.GetComponentInChildren<GunManager>().AddAmmo(10);
+        player.GetComponentInChildren<GunManager>().AddAmmo(30);
     }
 }

@@ -21,7 +21,7 @@ public abstract class Gun : MonoBehaviour
     public abstract void Shoot();
     protected GameObject GetBullet()
     {
-        GameObject bullet = pool.Get(1);
+        GameObject bullet = pool.SpawnResource(0);
         bullet.transform.position = muzzle.position;
         bullet.transform.rotation = Quaternion.Euler(muzzle.transform.rotation.eulerAngles + offset);
 

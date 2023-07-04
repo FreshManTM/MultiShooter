@@ -1,8 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
-public abstract class Resource : MonoBehaviour
+using Fusion;
+public abstract class Resource : NetworkBehaviour
 {
     public abstract void Action(GameObject player);
     private void OnTriggerEnter2D(Collider2D collision)
@@ -10,6 +10,8 @@ public abstract class Resource : MonoBehaviour
         if (collision.CompareTag("Player"))
         {
             Action(collision.gameObject);
+            Runner.Despawn(GetComponent<NetworkObject>());
+
         }
     }
 }

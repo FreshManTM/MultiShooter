@@ -1,11 +1,12 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
-public class Bullet : MonoBehaviour
+using Fusion;
+public class Bullet : NetworkBehaviour
 {
     float damage;
-    private void FixedUpdate()
+
+    public override void FixedUpdateNetwork()
     {
         transform.Translate(Vector3.up * 20 * Time.fixedDeltaTime);
     }
@@ -27,6 +28,6 @@ public class Bullet : MonoBehaviour
         if (!collision.CompareTag("Area"))
             return;
 
-        gameObject.SetActive(false);
+        Runner.Despawn(Object);
     }
 }

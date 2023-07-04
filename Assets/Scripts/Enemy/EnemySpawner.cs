@@ -1,35 +1,40 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
-public class EnemySpawner : MonoBehaviour
+using Fusion;
+public class EnemySpawner : NetworkBehaviour 
 {
-    [SerializeField] GameObject prefab;
+    [SerializeField] GameObject[] enemyPrefabs;
     [SerializeField] GameManager gm;
     [SerializeField] Transform player;
-    [SerializeField] EnemyData[] data;
-    [SerializeField] PoolManager pool;
-
-    [SerializeField] float spawnTime;
     [SerializeField] Transform[] spawnPoints;
-    [SerializeField]float spawnTimer;
 
-    EnemyFactory enemyFactory;
-    private void Update()
+    //public override void FixedUpdateNetwork()
+    //{
+    //    if (Runner.IsSharedModeMasterClient)
+    //    {
+    //        if (spawnTimer <= 0)
+    //        {
+    //            spawnTimer = spawnTime;
+    //            print("IsServer spawning enemy");
+    //            Spawn(0);
+
+    //        }
+    //        else
+    //        {
+    //            spawnTimer -= Time.fixedDeltaTime;
+    //        }
+    //    }
+    //    else
+    //    {
+    //        Destroy(gameObject);
+    //    }
+
+    //}
+    public void Spawn(int index)
     {
-
-        if(spawnTimer <= 0)
-        {
-            spawnTimer = spawnTime;
-            //enemyFactory = new NormalZombieFactory(pool, gm, player, data[0]);
-            //enemyFactory = new PumpedZombieFactory(pool, gm, player, data[1]);
-            enemyFactory = new SkeletonFactory(pool, gm, player, data[2]);
-
-            enemyFactory.Spawn(spawnPoints[Random.Range(0, spawnPoints.Length)].position);
-        }
-        else
-        {
-            spawnTimer -= Time.deltaTime;
-        }
+        GameObject enemy = Runner.Spawn(enemyPrefabs[index], Vector2.zero, Quaternion.identity, Object.InputAuthority).gameObject;
+        enemy.GetComponent<Enemy>().Init(gm, spawnPoints[Random.Range(0, spawnPoints.Length)].position);
     }
+
 }

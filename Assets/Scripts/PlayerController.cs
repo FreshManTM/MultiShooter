@@ -2,8 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
-
-public class PlayerController : MonoBehaviour
+using Fusion;
+public class PlayerController : NetworkBehaviour
 {
     Rigidbody2D rb;
     Vector2 moveDirection;
@@ -12,15 +12,18 @@ public class PlayerController : MonoBehaviour
    
     [SerializeField] float health;
     [SerializeField] float maxHealth;
+    GameManager gm;
     Animator anim;
+    bool isDead;
     void Start()
     {
-        rb = GetComponent<Rigidbody2D>();
+        rb = GetComponentInParent<Rigidbody2D>();
         spriter = GetComponent<SpriteRenderer>();
         anim = GetComponent<Animator>();
+        gm = FindObjectOfType<GameManager>();
         health = maxHealth;
-    }
 
+    }
     private void Update()
     {
         if (moveDirection.x != 0)
@@ -28,31 +31,59 @@ public class PlayerController : MonoBehaviour
             spriter.flipX = moveDirection.x < 0;
         }
     }
-    private void FixedUpdate()
+    void ChangeSpire()
     {
-        rb.velocity = new Vector2(moveDirection.x * moveSpeed, moveDirection.y * moveSpeed);
+        spriter.sprite = null;
+    }
+    public override void FixedUpdateNetwork()
+    {
+        if(!isDead && rb != null)
+            rb.velocity = new Vector2(moveDirection.x * moveSpeed, moveDirection.y * moveSpeed);
         //Vector2 nextVec = moveDirection.normalized * moveSpeed* Time.fixedDeltaTime;
         //rb.MovePosition(rb.position + nextVec);
     }
     void OnMove(InputValue value)
     {
+        if (!Object.HasInputAuthority)
+            return;
         moveDirection = value.Get<Vector2>();
         anim.SetFloat("Speed", moveDirection.magnitude);
 
     }
     public void TakeDamage(float damage)
     {
-        if(health > 0)
+        
+        if(health - damage > 0)
         {
+            print("Damage " + damage);
             health -= damage;
+            if(Object.HasInputAuthority)
+                gm.SetHealth(health);
         }
-        else
+        else if(!isDead)
         {
-            print("Player is dead");
+            health = 0;
+            isDead = true;
+            anim.SetTrigger("Dead");
+            Invoke(nameof(Death), 1f);
+            if (Object.HasInputAuthority)
+            {
+                gm.SetHealth(health);
+                gm.Death();
+            }
         }
+    }
+    void Death()
+    {
+        Runner.Despawn(Object);
     }
     public void AddHealth(float heal)
     {
+
         health += heal;
+        if (health > maxHealth)
+            health = maxHealth;
+        gm.SetHealth(health);
+
     }
 }

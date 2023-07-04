@@ -1,7 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+using Fusion;
 public class PumpedZombieFactory : EnemyFactory
 {
     GameManager gm;
@@ -17,13 +17,16 @@ public class PumpedZombieFactory : EnemyFactory
         this.player = player;
         this.data = data;
     }
+
     public override void Spawn(Vector3 spawnPos)
     {
-        zombie = pool.Get(0);
-        zombie.transform.localScale = new Vector3(1.5f, 1.5f, 1.5f);
+        zombie = pool.SpawnResource(0);
+        
+                // zombie.transform.localScale = new Vector3(1.5f, 1.5f, 1.5f);
         ZombieEnemy component = zombie.GetComponent<ZombieEnemy>();
         if (component == null)
             component = zombie.AddComponent<ZombieEnemy>();
-        component.Init(player, gm, data, spawnPos);
+        //component.Init(player, gm, data, spawnPos);
     }
+
 }

@@ -12,6 +12,8 @@ GameObject:
   - component: {fileID: 104353572657452935}
   - component: {fileID: 104353572657452934}
   - component: {fileID: 4801679286104949490}
+  - component: {fileID: 247570601804201875}
+  - component: {fileID: 1665115229441722859}
   m_Layer: 0
   m_Name: Grenade
   m_TagString: Untagged
@@ -124,4 +126,58 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d12c620b0cc8a924688607e3f0000357, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _interpolationDataSource: 0
   grenadeData: {fileID: 11400000, guid: 44e4cf7d9d5b395449260581b5ccc10e, type: 2}
+--- !u!114 &247570601804201875
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 104353572657452932}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -1552182283, guid: e725a070cec140c4caffb81624c8c787, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ObjectInterest: 1
+  DefaultInterestGroups: []
+  DestroyWhenStateAuthorityLeaves: 0
+  AllowStateAuthorityOverride: 1
+  AoiPositionSource: {fileID: 0}
+  Flags: 2305
+  NetworkGuid:
+    RawGuidValue: 8842ea4695a5b2343b9c06c7c774599b
+  NestedObjects: []
+  NetworkedBehaviours:
+  - {fileID: 4801679286104949490}
+  - {fileID: 1665115229441722859}
+  SimulationBehaviours: []
+--- !u!114 &1665115229441722859
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 104353572657452932}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 158639473, guid: e725a070cec140c4caffb81624c8c787, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _interpolationDataSource: 0
+  InterpolationSpace: 0
+  InterpolationTarget: {fileID: 0}
+  InterpolateErrorCorrection: 1
+  InterpolatedErrorCorrectionSettings:
+    MinRate: 3.3
+    MaxRate: 10
+    PosBlendStart: 0.25
+    PosBlendEnd: 1
+    PosMinCorrection: 0.025
+    PosTeleportDistance: 2
+    RotBlendStart: 0.1
+    RotBlendEnd: 0.5
+    RotTeleportRadians: 1.5
+  UseLegacySharedModeInterpolation: 0
+  TargetInterpolationDelay: 0.03

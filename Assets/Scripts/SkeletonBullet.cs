@@ -1,8 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Fusion;
 
-public class SkeletonBullet : MonoBehaviour
+public class SkeletonBullet : NetworkBehaviour
 {
     Vector3 target;
     float damage;
@@ -10,7 +11,7 @@ public class SkeletonBullet : MonoBehaviour
     void Update()
     {
         if (lifeTimer <= 0)
-            gameObject.SetActive(false);
+            Runner.Despawn(GetComponent<NetworkObject>());
         else
         {
             lifeTimer -= Time.deltaTime;
@@ -31,8 +32,9 @@ public class SkeletonBullet : MonoBehaviour
     {
         if (collision.CompareTag("Player"))
         {
-            collision.GetComponent<PlayerController>().TakeDamage(damage);
-            gameObject.SetActive(false);
+            collision.GetComponentInChildren<PlayerController>().TakeDamage(damage);
+            Runner.Despawn(GetComponent<NetworkObject>());
+
         }
     }
 }

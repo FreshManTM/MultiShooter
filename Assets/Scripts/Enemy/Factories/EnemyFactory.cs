@@ -1,8 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
-public abstract class EnemyFactory
+using Fusion;
+public abstract class EnemyFactory: NetworkBehaviour
 {
     public EnemyFactory(PoolManager pool, GameManager gm, Transform player, EnemyData data)
     {
