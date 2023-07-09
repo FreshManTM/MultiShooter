@@ -10,7 +10,9 @@ public class NetworkPlayer : NetworkBehaviour, IPlayerLeft
     [SerializeField] GameManager gm;
     [SerializeField]GunManager gunManager;
     [Networked(OnChanged =nameof(OnSkinChanged))] int skinNumber { get; set; }
-    [Networked(OnChanged =nameof(OnSkinChanged))] int gunNumber { get; set; }
+    [Networked(OnChanged =nameof(OnSkinChanged))]public int gunNumber { get; set; }
+    [Networked] public int setGunNumber { get; set; }
+    bool gunSet;
 
     static void OnSkinChanged(Changed<NetworkPlayer> changed)
     {
@@ -26,8 +28,6 @@ public class NetworkPlayer : NetworkBehaviour, IPlayerLeft
 
         gunManager.GetComponentInChildren<SpriteRenderer>().sprite = gm.GetGunData(gunNumber).GunSprite;
         gunManager.InitGun(gm.GetGunData(gunNumber));
-        gm.SetGun(gunManager);
-
     }
 
     [Rpc(RpcSources.InputAuthority, RpcTargets.StateAuthority)]
@@ -42,14 +42,34 @@ public class NetworkPlayer : NetworkBehaviour, IPlayerLeft
         {
             print("Spawned Local player");
             Local = this;
-            RPC_SetSprite(PlayerPrefs.GetInt("PlayerSkin"), Random.Range(0,3));
+
+            if(true)
+            {
+                gunSet = true;
+                int randomGunNumber = Random.Range(0, 3);
+                print("First set gun Number is " + setGunNumber);
+                while (randomGunNumber == setGunNumber)
+                {
+                    randomGunNumber = Random.Range(0, 3);
+                }
+                setGunNumber = randomGunNumber;
+                print("Set gun Number is " + setGunNumber);
+                RPC_SetSprite(PlayerPrefs.GetInt("PlayerSkin"), randomGunNumber);
+            }
+
+            
         }
         else
         {
             print("Spawned Remote player");
         }
     }
+    IEnumerator SetRandomGun()
+    {
 
+
+        yield return null;
+    }
     public void PlayerLeft(PlayerRef player)
     {
         if(player == Object.InputAuthority)

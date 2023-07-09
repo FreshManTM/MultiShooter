@@ -19,7 +19,7 @@ public class LobbyManager : MonoBehaviour
 
     public void SetSkin(int skinNum)
     {
-        PlayerPrefs.SetInt("PlayerSkin", skinNum);
+        
     }
     private void Awake()
     {

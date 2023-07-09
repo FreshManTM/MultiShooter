@@ -16,9 +16,8 @@ public class WaveController : NetworkBehaviour
     bool waveIsActive;
     public override void Spawned()
     {
-        print("wave spawned");
-        if (Runner.IsSharedModeMasterClient)
-            restTimer = TickTimer.CreateFromSeconds(Runner, 5);
+        //if (Runner.IsSharedModeMasterClient)
+            //restTimer = TickTimer.CreateFromSeconds(Runner, 5);
 
     }
     public override void FixedUpdateNetwork()
@@ -70,16 +69,21 @@ public class WaveController : NetworkBehaviour
 
     private void SetTimerText()
     {
-        if (!restTimer.Expired(Runner))
+        if (!restTimer.ExpiredOrNotRunning(Runner))
         {
             timerText.color = Color.white;
             timerText.text = ((int)restTimer.RemainingTime(Runner)).ToString();
         }
-        else
+        else if(!waveTimer.ExpiredOrNotRunning(Runner))
         {
             timerText.color = Color.red;
             timerText.text = ((int)waveTimer.RemainingTime(Runner)).ToString();
 
         }
+    }
+
+    public void StartGameTimer()
+    {
+        restTimer = TickTimer.CreateFromSeconds(Runner, 5);
     }
 }

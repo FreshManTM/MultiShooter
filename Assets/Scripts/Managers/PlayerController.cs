@@ -39,8 +39,6 @@ public class PlayerController : NetworkBehaviour
     {
         if(!isDead && rb != null)
             rb.velocity = new Vector2(moveDirection.x * moveSpeed, moveDirection.y * moveSpeed);
-        //Vector2 nextVec = moveDirection.normalized * moveSpeed* Time.fixedDeltaTime;
-        //rb.MovePosition(rb.position + nextVec);
     }
     void OnMove(InputValue value)
     {
@@ -52,38 +50,37 @@ public class PlayerController : NetworkBehaviour
     }
     public void TakeDamage(float damage)
     {
-        
         if(health - damage > 0)
         {
-            print("Damage " + damage);
             health -= damage;
             if(Object.HasInputAuthority)
-                gm.SetHealth(health);
+                gm.health = health;
+
         }
         else if(!isDead)
         {
             health = 0;
             isDead = true;
             anim.SetTrigger("Dead");
-            Invoke(nameof(Death), 1f);
+            Invoke(nameof(Despawn), .5f);
             if (Object.HasInputAuthority)
             {
-                gm.SetHealth(health);
+                gm.health = health;
                 gm.Death();
+                //gm.Death();
             }
         }
     }
-    void Death()
+    void Despawn()
     {
         Runner.Despawn(Object);
     }
     public void AddHealth(float heal)
     {
-
         health += heal;
         if (health > maxHealth)
             health = maxHealth;
-        gm.SetHealth(health);
+        gm.health = health;
 
     }
 }

@@ -13,15 +13,14 @@ class ZombieEnemy : Enemy
     GameManager gm;
     [SerializeField] EnemyData data;
 
-    [SerializeField] float attacsTimer;
+    [SerializeField] float attacksTimer;
     bool isOnHitRange;
-    // [Networked(OnChanged = nameof(OnScaleChanged))] Vector3 networkLocalScale { get; set; }
 
     private void Update()
     {
-        if (attacsTimer > 0)
+        if (attacksTimer > 0)
         {
-            attacsTimer -= Time.deltaTime;
+            attacksTimer -= Time.deltaTime;
         }
         else
         {
@@ -81,21 +80,15 @@ class ZombieEnemy : Enemy
         }
         yield return null;
     }
-    private void OnDrawGizmos()
-    {
-        Gizmos.color = Color.red;
-        Gizmos.DrawSphere(transform.position, 25f);
-    }
     public override void Attack()
     {
         print("player hitted");
         target.gameObject.GetComponentInChildren<PlayerController>().TakeDamage(data.Damage);
-        attacsTimer = data.TimeBetweenAttacks;
+        attacksTimer = data.TimeBetweenAttacks;
     }
 
     public override void Move(Transform target)
     {
-
         transform.position = Vector2.MoveTowards(transform.position, target.position, (data.MoveSpeed / 10) * Time.fixedDeltaTime);
     }
 
@@ -108,20 +101,26 @@ class ZombieEnemy : Enemy
     }
 
     public override void TakeDamage(float damage)
-    {     
+    {
+        RPC_TakeDamage(damage);
+    }
+    [Rpc]
+    public void RPC_TakeDamage(float damage, RpcInfo info = default)
+    {
         health -= damage;
         if (health <= 0 && !isDead)
         {
             isDead = true;
-            GetComponent<CapsuleCollider2D>().enabled = false;
             anim.SetBool("Dead", true);
-            gm.AddKill();
-            Invoke("Dead", 2);
+            gm.kills++;
+            print("This is death");
+            Invoke(nameof(Despawn), 2);
         }
     }
-    void Dead()
+    void Despawn()
     {
-        gameObject.SetActive(false);
+        print("This is despawn");
+        Runner.Despawn(Object);
     }
     private void OnCollisionEnter2D(Collision2D collision)
     {

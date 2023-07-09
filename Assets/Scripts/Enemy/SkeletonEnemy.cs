@@ -5,28 +5,24 @@ using Fusion;
 
 public class SkeletonEnemy : Enemy
 {
-    [SerializeField] float health;
+    [SerializeField, Networked] float health { get; set; }
     [SerializeField] bool isDead;
     [SerializeField] GameObject bulletPrefab;
     [SerializeField]Transform target;
-    Animator anim;
+    [SerializeField] Animator anim;
     GameManager gm;
-    
+    bool takeDamage;
     [SerializeField] EnemyData data;
-
     [SerializeField] float attacsTimer;
     bool isOnHitRange;
-
-
+    float damage;
+    bool isDeadSet;
     public override void Spawned()
     {
-
+        gm = FindAnyObjectByType<GameManager>();
         print("Skeleton is spawned");
     }
-    private void Update()
-    {
-    }
-    private void FixedUpdate()
+    public override void FixedUpdateNetwork()
     {
         if (target == null)
         {
@@ -46,6 +42,12 @@ public class SkeletonEnemy : Enemy
             if (isOnHitRange && target != null && Runner.IsSharedModeMasterClient)
                 Attack();
         }
+        if (isDead && !isDeadSet)
+        {
+            isDeadSet = true;
+            anim.SetBool("Dead", true);
+
+        }
     }
     public override void Init(GameManager gm, Vector3 spawnPos)
     {
@@ -53,17 +55,15 @@ public class SkeletonEnemy : Enemy
 
         transform.position = spawnPos;
         health = data.MaxHelath;
-        anim = GetComponent<Animator>();
+        damage = data.Damage;
 
-        anim.runtimeAnimatorController = data.AnimatorController;
         isDead = false;
     }
     public override void Attack()
     {
         attacsTimer = data.TimeBetweenAttacks;
-        GameObject bullet = Runner.Spawn(bulletPrefab, Vector2.zero, Quaternion.identity, Object.InputAuthority).gameObject;
-        bullet.transform.position = transform.position;
-        bullet.GetComponent<SkeletonBullet>().Init(target.position, data.Damage);
+        GameObject bullet = Runner.Spawn(bulletPrefab, transform.position, Quaternion.identity, Object.InputAuthority).gameObject;
+        bullet.GetComponent<SkeletonBullet>().Init(target.position, damage);
     }
     IEnumerator _DetectPlayer()
     {
@@ -112,24 +112,31 @@ public class SkeletonEnemy : Enemy
         else
         {
             transform.eulerAngles = new Vector3(0, 0, 0);
-
         }
     }
 
     public override void TakeDamage(float damage)
+    {
+        RPC_TakeDamage(damage);
+
+    }
+    void Despawn()
+    {
+        print("This is despawn");
+        Runner.Despawn(Object);
+    }
+
+    [Rpc]
+    public void RPC_TakeDamage(float damage, RpcInfo info = default)
     {
         health -= damage;
         if (health <= 0 && !isDead)
         {
             isDead = true;
             anim.SetBool("Dead", true);
-            gm.AddKill();
-            Invoke("Dead", 2);
+            gm.kills++;
+            print("This is death");
+            Invoke(nameof(Despawn), 2);
         }
     }
-    void Dead()
-    {
-        gameObject.SetActive(false);
-    }
-
 }

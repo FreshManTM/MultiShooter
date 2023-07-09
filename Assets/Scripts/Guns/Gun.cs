@@ -1,8 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Fusion;
 
-public abstract class Gun : MonoBehaviour
+public abstract class Gun : NetworkBehaviour
 {
     Vector3 offset = new Vector3(0, 0, -90);
     PoolManager pool;
