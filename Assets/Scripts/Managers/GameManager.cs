@@ -11,26 +11,23 @@ public enum GameState
     Win,
     Lose
 }
-public class GameManager : MonoBehaviour
+public class GameManager : NetworkBehaviour
 {
     [SerializeField] RuntimeAnimatorController[] PlayerAnim;
     [SerializeField] RuntimeAnimatorController[] EnemyAnim;
     [SerializeField] GunData[] gunData;
 
-    public GunManager gunManager;
     public int kills { get; set; }
     public float damage { get; set; }
     public float health { get; set; }
-    public float playerDamage { get; set; }
-    public GameState gameState { get; set; }
+    GunManager gunManager;
+    [Networked] public GameState gameState { get; set; }
     
     public int[] ammo;
-    [SerializeField] int playersAlive { get; set; }
-    private void Awake()
+    public override void Spawned()
     {
-        gameState = GameState.Play;
+        RPC_SetState(GameState.Play);
         health = 100;
-        playersAlive = 2;
     }
     public void SetGun(GunManager gun)
     {
@@ -39,7 +36,6 @@ public class GameManager : MonoBehaviour
     }
     public void Death()
     {
-        playersAlive--;
        
         gunManager.gameObject.SetActive(false);
         Invoke(nameof(ChangeSpectator), 2);
@@ -57,19 +53,16 @@ public class GameManager : MonoBehaviour
         else
         {
             print("GameState changed");
-            gameState = GameState.Lose;
+            RPC_SetState(GameState.Lose);
         }
     }
-    public RuntimeAnimatorController GetPlayerAnim(int index)
+
+    [Rpc]
+    public void RPC_SetState(GameState state, RpcInfo info = default)
     {
-        return PlayerAnim[index];
+        gameState = state;
     }
-    public RuntimeAnimatorController GetEnemyAnim(int index)
-    {
-        return EnemyAnim[index];
-    }
-    public GunData GetGunData(int index)
-    {
-        return gunData[index];
-    }
+    public RuntimeAnimatorController GetPlayerAnim(int index) { return PlayerAnim[index]; }
+    public RuntimeAnimatorController GetEnemyAnim(int index) { return EnemyAnim[index]; }
+    public GunData GetGunData(int index){ return gunData[index]; }
 }

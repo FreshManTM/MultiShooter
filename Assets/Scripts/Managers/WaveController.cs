@@ -6,6 +6,7 @@ using UnityEngine.UI;
 public class WaveController : NetworkBehaviour
 {
     [SerializeField] PoolManager pool;
+    [SerializeField] GameManager gm;
     [SerializeField] Text timerText;
     [SerializeField] WaveData[] waveDatas;
     EnemyWave wave;
@@ -38,6 +39,10 @@ public class WaveController : NetworkBehaviour
                 Destroy(wave);
                 restTimer = TickTimer.CreateFromSeconds(Runner, waveDatas[currentWave - 1].restTime);
                 waveIsActive = false;
+                if(wave = new ThirdWave())
+                {
+                    gm.RPC_SetState(GameState.Win);
+                }
             }
         }
         SetTimerText();

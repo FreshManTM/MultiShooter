@@ -13,7 +13,6 @@ MonoBehaviour:
   m_Name: SecondWave
   m_EditorClassIdentifier: 
   enemiesPerWave: 30
-  enemyTypes: 0000000002000000
-  resourcesPerWave: 15
+  resourcesPerWave: 30
   waveTime: 180
   restTime: 30

@@ -20,12 +20,9 @@ public class Bullet : NetworkBehaviour
     {
         if (collision.CompareTag("Enemy") && Object.StateAuthority == Runner.LocalPlayer)
         {
-            collision.GetComponent<Enemy>().TakeDamage(damage);
-            gm.damage += damage;
-            print(damage);
-            print("Enemy take damage " + damage);
+            collision.GetComponent<Enemy>().TakeDamage(damage, Object);
             gameObject.SetActive(false);
-            //Invoke(nameof(Despawn), 0.05f);
+            Invoke(nameof(Despawn), 0.05f);
         }
     }
 
@@ -33,8 +30,7 @@ public class Bullet : NetworkBehaviour
     {
         if (collision.CompareTag("Area"))
         {
-            gameObject.SetActive(false);
-            //Invoke(nameof(Despawn), 0.01f);
+            Invoke(nameof(Despawn), 0.05f);
         }
     }
     void Despawn()

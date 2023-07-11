@@ -22,7 +22,7 @@ public class ThirdWave : EnemyWave
         int enemyNumber;
         if (randomValue < .4f)
             enemyNumber = 0;
-        else if (randomValue > .4f && randomValue < .7f)
+        else if (randomValue < .7f)
             enemyNumber = 1;
         else
             enemyNumber = 2;
@@ -34,7 +34,15 @@ public class ThirdWave : EnemyWave
 
     public override IEnumerator ResourceSpawn()
     {
-        spawner.SpawnResource(4);
+        float randomValue = Random.value;
+        int resourceNumber;
+        if (randomValue < .5f)
+            resourceNumber = 4;
+        else if (randomValue < .8f)
+            resourceNumber = 2;
+        else
+            resourceNumber = 3;
+        spawner.SpawnResource(resourceNumber);
         yield return new WaitForSeconds(resourceSpawnDelay);
         StartCoroutine(ResourceSpawn());
 

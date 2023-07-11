@@ -13,8 +13,8 @@ public class SpawnPlayerNetworked : NetworkBehaviour, INetworkRunnerCallbacks
     int playersCount;
     public void OnPlayerJoined(NetworkRunner runner, PlayerRef player)
     {
-        playersCount++;
         print("Player joined");
+        playersCount++;
         if(playersCount == 2 && runner.IsSharedModeMasterClient)
         {
             FindObjectOfType<WaveController>().StartGameTimer();
@@ -31,11 +31,7 @@ public class SpawnPlayerNetworked : NetworkBehaviour, INetworkRunnerCallbacks
             GameObject cameraObj = Instantiate(cameraPrefab);
             cameraObj.GetComponentInChildren<CinemachineVirtualCamera>().Follow = playerObj.transform;
             GetComponent<NetworkRunnerHandler>().loadingCanvas.SetActive(false);
-            Runner.SetPlayerObject(playerObj.GetComponent<NetworkObject>().InputAuthority, playerObj.GetComponent<NetworkObject>());
-        }
-        else
-        {
-            print("OnSceneLoadDone");
+            //Runner.SetPlayerObject(playerObj.GetComponent<NetworkObject>().InputAuthority, playerObj.GetComponent<NetworkObject>());
         }
     }
     public void OnPlayerLeft(NetworkRunner runner, PlayerRef player)

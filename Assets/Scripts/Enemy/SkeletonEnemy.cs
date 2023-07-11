@@ -16,11 +16,10 @@ public class SkeletonEnemy : Enemy
     [SerializeField] float attacsTimer;
     bool isOnHitRange;
     float damage;
-    bool isDeadSet;
+    bool addKill;
     public override void Spawned()
     {
         gm = FindAnyObjectByType<GameManager>();
-        print("Skeleton is spawned");
     }
     public override void FixedUpdateNetwork()
     {
@@ -39,14 +38,8 @@ public class SkeletonEnemy : Enemy
         }
         else
         {
-            if (isOnHitRange && target != null && Runner.IsSharedModeMasterClient)
+            if (isOnHitRange && target != null && !isDead && Runner.IsSharedModeMasterClient)
                 Attack();
-        }
-        if (isDead && !isDeadSet)
-        {
-            isDeadSet = true;
-            anim.SetBool("Dead", true);
-
         }
     }
     public override void Init(GameManager gm, Vector3 spawnPos)
@@ -115,29 +108,34 @@ public class SkeletonEnemy : Enemy
         }
     }
 
-    public override void TakeDamage(float damage)
+    public override void TakeDamage(float damage, NetworkObject bullet)
     {
         RPC_TakeDamage(damage);
-
+        if (bullet.StateAuthority == Runner.LocalPlayer)
+        {
+            if (isDead && !addKill)
+            {
+                addKill = true;
+                gm.kills++;
+            }
+            else if (!isDead)
+                gm.damage += damage;
+        }
     }
-    void Despawn()
-    {
-        print("This is despawn");
-        Runner.Despawn(Object);
-    }
-
     [Rpc]
     public void RPC_TakeDamage(float damage, RpcInfo info = default)
     {
         health -= damage;
-        print("taking damage " + damage);
         if (health <= 0 && !isDead)
         {
             isDead = true;
             anim.SetBool("Dead", true);
-            gm.kills++;
-            print("This is death");
             Invoke(nameof(Despawn), 2);
         }
     }
+    void Despawn()
+    {
+        Runner.Despawn(Object);
+    }
+
 }

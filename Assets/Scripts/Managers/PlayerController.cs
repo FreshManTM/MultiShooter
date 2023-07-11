@@ -13,19 +13,32 @@ public class PlayerController : NetworkBehaviour
     [SerializeField] float health;
     [SerializeField] float maxHealth;
     [SerializeField] Joystick moveJoystick;
-    GameManager gm;
+    [SerializeField]GameManager gm;
     Animator anim;
     bool isDead;
-    void Start()
+    public override void Spawned()
     {
         rb = GetComponentInParent<Rigidbody2D>();
         spriter = GetComponent<SpriteRenderer>();
         anim = GetComponent<Animator>();
-        gm = FindObjectOfType<GameManager>();
+        StartCoroutine(FindGameManager());
+
         health = maxHealth;
         moveJoystick = GameObject.Find("Movement Joystick").GetComponent<Joystick>();
     }
-
+    IEnumerator FindGameManager()
+    {
+        gm = FindObjectOfType<GameManager>();
+        if(gm == null)
+        {
+            yield return new WaitForSeconds(.1f);
+            StartCoroutine(FindGameManager());
+        }
+        else
+        {
+            yield return null;
+        }
+    }
     void ChangeSpire()
     {
         spriter.sprite = null;

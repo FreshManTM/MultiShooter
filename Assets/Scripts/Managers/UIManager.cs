@@ -2,25 +2,32 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-public class UIManager : MonoBehaviour
+using UnityEngine.SceneManagement;
+using Fusion;
+public class UIManager : NetworkBehaviour
 {
     [SerializeField] GameManager gm;
     [Space]
     [SerializeField] Text ammoText;
     [SerializeField] Text killsText;
+    [SerializeField] Text damageText;
     [SerializeField] Slider healthSlider;
     [Space]
     [SerializeField] GameObject endCanvas;
     [SerializeField] Text stateText;
-    [SerializeField] Text YresultText;
-    [SerializeField] Text MresultText;
-    
+    [SerializeField] Text resultText;
+
 
     GunManager gunManager;
 
-    public void Update()
+    public override void FixedUpdateNetwork()
     {
-        if(gm.gameState == GameState.Play)
+        SetStateUI();
+    }
+
+    private void SetStateUI()
+    {
+        if (gm.gameState == GameState.Play)
         {
             SetText();
         }
@@ -31,27 +38,23 @@ public class UIManager : MonoBehaviour
         }
         else if (gm.gameState == GameState.Lose)
         {
-            print("This is lose.");
             stateText.text = "Lose...";
             endCanvas.SetActive(true);
-            YresultText.text = $"Kills: {gm.kills}\nDamage:{gm.playerDamage}";
-            MresultText.text = $"Kills: {gm.kills}\nDamage:{gm.playerDamage}";
+            resultText.text = $"Kills: {gm.kills}\nDamage: {gm.damage}";
         }
     }
 
     private void SetText()
     {
-        if (gunManager != null)
-        {
-            healthSlider.value = gm.health / 100;
-            gm.ammo = gunManager.GetAmmo();
-            ammoText.text = gm.ammo[0] + "/" + gm.ammo[1];
-        }
-        else
-        {
-            gunManager = gm.gunManager;
-        }
-        killsText.text = gm.kills.ToString();
-        //killsText.text = gm.damage.ToString();
+
+        healthSlider.value = gm.health / 100;
+        ammoText.text = gm.ammo[0] + "/" + gm.ammo[1];
+
+        killsText.text = gm.kills.ToString("000");
+        damageText.text = gm.damage.ToString("000");
+    }
+    public void MenuButton()
+    {
+        SceneManager.LoadScene(0);
     }
 }

@@ -32,7 +32,7 @@ public class SkeletonBullet : NetworkBehaviour
     {
         if (collision.CompareTag("Player"))
         {
-            collision.GetComponentInChildren<PlayerController>().TakeDamage(10);
+            collision.GetComponentInChildren<PlayerController>().TakeDamage(damage);
             Invoke(nameof(Despawn), 0.05f);
         }
     }

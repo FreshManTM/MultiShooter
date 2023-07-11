@@ -13,7 +13,6 @@ MonoBehaviour:
   m_Name: ThirdWave
   m_EditorClassIdentifier: 
   enemiesPerWave: 60
-  enemyTypes: 000000000100000002000000
-  resourcesPerWave: 30
+  resourcesPerWave: 60
   waveTime: 300
   restTime: 0

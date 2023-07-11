@@ -4,8 +4,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using UnityEngine;
-
-class GrenadeBullet:MonoBehaviour
+using Fusion;
+class GrenadeBullet: NetworkBehaviour
 {
     [SerializeField] ParticleSystem particle;
     float damage;
@@ -31,7 +31,7 @@ class GrenadeBullet:MonoBehaviour
             {
                 if (enemy.CompareTag("Enemy"))
                 {
-                    enemy.GetComponent<Enemy>().TakeDamage(damage);
+                    enemy.GetComponent<Enemy>().TakeDamage(damage, Object);
                 }
             }
             Destroy(gameObject);

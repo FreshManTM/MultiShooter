@@ -24,27 +24,15 @@ public class GunManager : NetworkBehaviour
     public GameManager gm;
     Vector3 offset = new Vector3(0, 0, -90);
     Gun gun;
-    void Awake()
-    {
-        //gunSprite = GetComponentInChildren<SpriteRenderer>();
-        //shootJoystick = GameObject.Find("Shooting Joystick").GetComponentInChildren<Joystick>();
-        //pool = FindObjectOfType<PoolManager>();
-        //gm = FindObjectOfType<GameManager>();
-        print("This is remote start");
-    }
     public override void Spawned()
     {
         if (Object.HasInputAuthority)
         {
             StartCoroutine(FindScripts());
-            gm.SetGun(this);
-            print("This is remote start " + Runner.LocalPlayer);
-
         }
     }
     IEnumerator FindScripts()
     {
-        print("finding");
         gunSprite = GetComponentInChildren<SpriteRenderer>();
         shootJoystick = GameObject.Find("Shooting Joystick").GetComponentInChildren<Joystick>();
         pool = FindObjectOfType<PoolManager>();
@@ -56,6 +44,8 @@ public class GunManager : NetworkBehaviour
         }
         else
         {
+            gm.SetGun(this);
+
             yield return null;
         }
     }
@@ -86,7 +76,6 @@ public class GunManager : NetworkBehaviour
 
     public void InitGun(GunData data)
     {
-        print("Init Gun");
         prevGunData = currentGunData;
         currentGunData = data;
         //gunSprite.sprite = currentGunData.GunSprite;

@@ -22,7 +22,7 @@ public class PoolManager : NetworkBehaviour
 
     public GameObject SpawnResource(int index)
     {
-        Vector2 spawnPos = new Vector2(Random.Range(0, 25), Random.Range(0, 25));
+        Vector2 spawnPos = new Vector2(Random.Range(-25, 25), Random.Range(-25, 25));
         select = Runner.Spawn(resourcePrefabs[index], spawnPos, Quaternion.identity, Object.InputAuthority).gameObject;
         print("Resource spawned");
         return select;
