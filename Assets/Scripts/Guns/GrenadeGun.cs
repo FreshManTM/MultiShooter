@@ -16,7 +16,7 @@ public class GrenadeGun : Gun
     }
     public override void Shoot()
     {
-        GameObject bullet = pool.SpawnResource(2);
+        GameObject bullet = pool.SpawnResource(1);
         bullet.transform.position = muzzle.position;
         bullet.transform.rotation = Quaternion.Euler(muzzle.transform.rotation.eulerAngles + offset);
         bullet.GetComponent<GrenadeBullet>().Init(gunData.Damage);

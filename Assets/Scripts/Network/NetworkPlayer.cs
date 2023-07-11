@@ -7,12 +7,10 @@ public class NetworkPlayer : NetworkBehaviour, IPlayerLeft
     public static NetworkPlayer Local { get; set; }
     public Animator playerAnim;
 
-    [SerializeField] GameManager gm;
-    [SerializeField]GunManager gunManager;
+    GameManager gm;
+    GunManager gunManager;
     [Networked(OnChanged =nameof(OnSkinChanged))] int skinNumber { get; set; }
     [Networked(OnChanged =nameof(OnSkinChanged))]public int gunNumber { get; set; }
-    [Networked] public int setGunNumber { get; set; }
-    bool gunSet;
 
     static void OnSkinChanged(Changed<NetworkPlayer> changed)
     {
@@ -40,35 +38,14 @@ public class NetworkPlayer : NetworkBehaviour, IPlayerLeft
     {
         if (Object.HasInputAuthority)
         {
-            print("Spawned Local player");
             Local = this;
 
-            if(true)
-            {
-                gunSet = true;
-                int randomGunNumber = Random.Range(0, 3);
-                print("First set gun Number is " + setGunNumber);
-                while (randomGunNumber == setGunNumber)
-                {
-                    randomGunNumber = Random.Range(0, 3);
-                }
-                setGunNumber = randomGunNumber;
-                print("Set gun Number is " + setGunNumber);
-                RPC_SetSprite(PlayerPrefs.GetInt("PlayerSkin"), randomGunNumber);
-            }
-
-            
+             RPC_SetSprite(PlayerPrefs.GetInt("PlayerSkin"), Random.Range(0, 3));   
         }
         else
         {
             print("Spawned Remote player");
         }
-    }
-    IEnumerator SetRandomGun()
-    {
-
-
-        yield return null;
     }
     public void PlayerLeft(PlayerRef player)
     {

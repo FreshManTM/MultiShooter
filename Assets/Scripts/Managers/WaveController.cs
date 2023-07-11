@@ -9,7 +9,7 @@ public class WaveController : NetworkBehaviour
     [SerializeField] GameManager gm;
     [SerializeField] Text timerText;
     [SerializeField] WaveData[] waveDatas;
-    EnemyWave wave;
+    Wave wave;
 
     [Networked] public TickTimer waveTimer { get; set; }
     [Networked] public TickTimer restTimer { get; set; }

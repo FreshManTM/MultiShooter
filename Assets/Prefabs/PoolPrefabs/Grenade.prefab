@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 104353572657452935}
   - component: {fileID: 104353572657452934}
   - component: {fileID: 4801679286104949490}
-  - component: {fileID: 247570601804201875}
+  - component: {fileID: -2186695642295266506}
   - component: {fileID: 1665115229441722859}
   m_Layer: 0
   m_Name: Grenade
@@ -128,7 +128,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _interpolationDataSource: 0
   grenadeData: {fileID: 11400000, guid: 44e4cf7d9d5b395449260581b5ccc10e, type: 2}
---- !u!114 &247570601804201875
+--- !u!114 &-2186695642295266506
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}

@@ -20,18 +20,22 @@ public class GameManager : NetworkBehaviour
     public int kills { get; set; }
     public float damage { get; set; }
     public float health { get; set; }
-    GunManager gunManager;
     [Networked] public GameState gameState { get; set; }
     
     public int[] ammo;
+    GunManager gunManager;
     public override void Spawned()
     {
         RPC_SetState(GameState.Play);
         health = 100;
     }
+    public override void FixedUpdateNetwork()
+    {
+        if (gunManager != null)
+            ammo = gunManager.GetAmmo();
+    }
     public void SetGun(GunManager gun)
     {
-        print("Setting gun in GM");
         gunManager = gun;
     }
     public void Death()
@@ -47,12 +51,10 @@ public class GameManager : NetworkBehaviour
         {
             GameObject player = FindObjectOfType<GunManager>().gameObject;
             CinemachineVirtualCamera camera = FindObjectOfType<CinemachineVirtualCamera>();
-            print("Player is " + player);
             camera.Follow = player.transform;
         }
         else
         {
-            print("GameState changed");
             RPC_SetState(GameState.Lose);
         }
     }

@@ -13,9 +13,9 @@ MonoBehaviour:
   m_Name: GrenadeGun
   m_EditorClassIdentifier: 
   Type: 3
-  Damage: 50
+  Damage: 80
   Distance: 50
-  MagazineSize: 7
+  MagazineSize: 1
   TimeBetweenShots: 1
   ReloadTime: 0
   BulletPrefab: {fileID: 104353572657452932, guid: 6f2f85c36b682af4a80124cf8138d267, type: 3}

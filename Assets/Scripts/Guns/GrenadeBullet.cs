@@ -11,7 +11,7 @@ class GrenadeBullet: NetworkBehaviour
     float damage;
     Collider2D[] hittedEnemies;
 
-    private void FixedUpdate()
+    public override void FixedUpdateNetwork()
     {
         transform.Translate(Vector3.up * 20 * Time.fixedDeltaTime);
     }
@@ -34,13 +34,13 @@ class GrenadeBullet: NetworkBehaviour
                     enemy.GetComponent<Enemy>().TakeDamage(damage, Object);
                 }
             }
-            Destroy(gameObject);
+            Runner.Despawn(Object);
         }
     }
     void OnTriggerExit2D(Collider2D collision)
     {
         if (!collision.CompareTag("Area"))
             return;
-        Destroy(gameObject);
+        Runner.Despawn(Object);
     }
 }

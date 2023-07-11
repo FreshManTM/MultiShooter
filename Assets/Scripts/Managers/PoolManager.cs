@@ -6,7 +6,7 @@ using Fusion;
 /*
     Prefabs MUST be assigned in the following order:
     0) Player Bullet
-    1) Skeleton Bullet
+    1) Grenade Bullet
     2) Grenade
     3) Medkit
     4) Ammo Boxes
@@ -24,7 +24,6 @@ public class PoolManager : NetworkBehaviour
     {
         Vector2 spawnPos = new Vector2(Random.Range(-25, 25), Random.Range(-25, 25));
         select = Runner.Spawn(resourcePrefabs[index], spawnPos, Quaternion.identity, Object.InputAuthority).gameObject;
-        print("Resource spawned");
         return select;
     }
     public GameObject EnemySpawn(int index)

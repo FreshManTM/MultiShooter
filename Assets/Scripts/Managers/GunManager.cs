@@ -78,7 +78,7 @@ public class GunManager : NetworkBehaviour
     {
         prevGunData = currentGunData;
         currentGunData = data;
-        //gunSprite.sprite = currentGunData.GunSprite;
+        gunSprite.sprite = currentGunData.GunSprite;
         ammo = currentGunData.MagazineSize;
         shotsTimer = 0;
         GetComponentInChildren<BoxCollider2D>().size = new Vector2(currentGunData.Distance, currentGunData.Distance);

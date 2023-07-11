@@ -8,7 +8,5 @@ public class Grenade : Resource
     public override void Action(GameObject player)
     {
         player.GetComponentInChildren<GunManager>().InitGun(grenadeData);
-        gameObject.SetActive(false);
-
     }
 }

@@ -267,7 +267,7 @@ MonoBehaviour:
   _interpolationDataSource: 0
   resourcePrefabs:
   - {fileID: 4122565992612807282, guid: 00818f04400b8354c96f7dbafdd74b81, type: 3}
-  - {fileID: 1654422125713124334, guid: 8d5cf0d2b31e2bd48a47602312704188, type: 3}
+  - {fileID: 104353572657452932, guid: 6f2f85c36b682af4a80124cf8138d267, type: 3}
   - {fileID: 104353572657452932, guid: 8842ea4695a5b2343b9c06c7c774599b, type: 3}
   - {fileID: 760539328115533982, guid: 80f5d57082a26f843a5d26693908db22, type: 3}
   - {fileID: 3373654225393688831, guid: 4a5a2e0f3183c094d8e403a2c116ff06, type: 3}
@@ -728,6 +728,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _interpolationDataSource: 0
   pool: {fileID: 100775011}
+  gm: {fileID: 0}
   timerText: {fileID: 1247306444}
   waveDatas:
   - {fileID: 11400000, guid: 94ee20b58bc3403409bb6999561d0b3d, type: 2}
@@ -96588,7 +96589,6 @@ MonoBehaviour:
   - {fileID: 11400000, guid: b76eb3ed501809b4a9f0d12e0ba2b2e4, type: 2}
   - {fileID: 11400000, guid: 70a890b5bf94f1c4a8cf46919bba9400, type: 2}
   - {fileID: 11400000, guid: 44e4cf7d9d5b395449260581b5ccc10e, type: 2}
-  gunManager: {fileID: 0}
   _gameState: 0
   ammo: 
 --- !u!4 &2005373304

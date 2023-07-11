@@ -56,4 +56,8 @@ public class NetworkRunnerHandler : MonoBehaviour
     {
         PlayerPrefs.SetInt("PlayerSkin", skinNum);
     }
+    public void QuitButton()
+    {
+        Application.Quit();
+    }
 }

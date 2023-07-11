@@ -10,7 +10,8 @@ public abstract class Resource : NetworkBehaviour
         if (collision.CompareTag("Player"))
         {
             Action(collision.gameObject);
-            Runner.Despawn(GetComponent<NetworkObject>());
+            if(Runner.IsSharedModeMasterClient)
+                Runner.Despawn(GetComponent<NetworkObject>());
 
         }
     }

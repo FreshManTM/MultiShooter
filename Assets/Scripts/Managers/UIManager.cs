@@ -18,8 +18,6 @@ public class UIManager : NetworkBehaviour
     [SerializeField] Text resultText;
 
 
-    GunManager gunManager;
-
     public override void FixedUpdateNetwork()
     {
         SetStateUI();

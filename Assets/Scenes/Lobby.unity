@@ -844,7 +844,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 614117270}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1174285911}
+        m_TargetAssemblyTypeName: NetworkRunnerHandler, Assembly-CSharp
+        m_MethodName: QuitButton
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &614117270
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1822,6 +1834,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 611f93b548b6e9a4280285cf7a927ac4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _interpolationDataSource: 0
   playerPrefab: {fileID: 2856639561562216443, guid: 1910cc66b7c589a46bcd496677a18087, type: 3}
   cameraPrefab: {fileID: 4278217512599118196, guid: ac7fe036967e95f4ca4d7d48efcb8147, type: 3}
 --- !u!114 &1174285911

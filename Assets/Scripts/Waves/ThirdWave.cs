@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class SecondWave : EnemyWave
+public class ThirdWave : Wave
 {
     PoolManager spawner;
     float enemySpawnDelay;
@@ -20,8 +20,10 @@ public class SecondWave : EnemyWave
     {
         float randomValue = Random.value;
         int enemyNumber;
-        if (randomValue < .6f)
+        if (randomValue < .4f)
             enemyNumber = 0;
+        else if (randomValue < .7f)
+            enemyNumber = 1;
         else
             enemyNumber = 2;
 
@@ -34,8 +36,10 @@ public class SecondWave : EnemyWave
     {
         float randomValue = Random.value;
         int resourceNumber;
-        if (randomValue < .6f)
+        if (randomValue < .5f)
             resourceNumber = 4;
+        else if (randomValue < .8f)
+            resourceNumber = 2;
         else
             resourceNumber = 3;
         spawner.SpawnResource(resourceNumber);
