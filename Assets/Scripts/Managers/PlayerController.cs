@@ -12,6 +12,7 @@ public class PlayerController : NetworkBehaviour
    
     [SerializeField] float health;
     [SerializeField] float maxHealth;
+    [SerializeField] Joystick moveJoystick;
     GameManager gm;
     Animator anim;
     bool isDead;
@@ -22,32 +23,50 @@ public class PlayerController : NetworkBehaviour
         anim = GetComponent<Animator>();
         gm = FindObjectOfType<GameManager>();
         health = maxHealth;
+        moveJoystick = GameObject.Find("Movement Joystick").GetComponent<Joystick>();
+    }
 
-    }
-    private void Update()
-    {
-        if (moveDirection.x != 0)
-        {
-            spriter.flipX = moveDirection.x < 0;
-        }
-    }
     void ChangeSpire()
     {
         spriter.sprite = null;
     }
     public override void FixedUpdateNetwork()
     {
-        if(!isDead && rb != null)
-            rb.velocity = new Vector2(moveDirection.x * moveSpeed, moveDirection.y * moveSpeed);
-    }
-    void OnMove(InputValue value)
-    {
         if (!Object.HasInputAuthority)
             return;
-        moveDirection = value.Get<Vector2>();
+        Move();
         anim.SetFloat("Speed", moveDirection.magnitude);
 
+        if (!isDead && rb != null)
+            rb.velocity = new Vector2(moveDirection.x * moveSpeed, moveDirection.y * moveSpeed);
+
+        if (moveDirection.x != 0)
+        {
+            spriter.flipX = moveDirection.x < 0;
+        }
+
     }
+
+    private void Move()
+    {
+        if (Mathf.Abs(moveJoystick.Horizontal) < .01f || Mathf.Abs(moveJoystick.Vertical) < .01f)
+        {
+            moveDirection = new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical"));
+        }
+        else
+        {
+            moveDirection = new Vector2(moveJoystick.Horizontal, moveJoystick.Vertical);
+        }
+    }
+
+    //void OnMove(InputValue value)
+    //{
+    //    if (!Object.HasInputAuthority)
+    //        return;
+    //    moveDirection = value.Get<Vector2>();
+    //    anim.SetFloat("Speed", moveDirection.magnitude);
+
+    //}
     public void TakeDamage(float damage)
     {
         if(health - damage > 0)

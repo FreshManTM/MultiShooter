@@ -22,6 +22,7 @@ public class Bullet : NetworkBehaviour
         {
             collision.GetComponent<Enemy>().TakeDamage(damage);
             gm.damage += damage;
+            print(damage);
             print("Enemy take damage " + damage);
             gameObject.SetActive(false);
             //Invoke(nameof(Despawn), 0.05f);

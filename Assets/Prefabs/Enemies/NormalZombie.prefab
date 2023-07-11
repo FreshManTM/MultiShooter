@@ -247,5 +247,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _interpolationDataSource: 0
   health: 100
+  anim: {fileID: 1371394802911378962}
   data: {fileID: 11400000, guid: bdb91c65b11ed3d45a2c6d4262cf8cb5, type: 2}
   attacksTimer: 0

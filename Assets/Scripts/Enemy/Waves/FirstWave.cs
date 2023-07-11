@@ -21,7 +21,7 @@ public class FirstWave : EnemyWave
     public override IEnumerator EnemySpawn()
     {
         print("we spawn enemy. Fist wave");
-        spawner.EnemySpawn(0);
+        spawner.EnemySpawn(2);
         yield return new WaitForSeconds(enemySpawnDelay);
         StartCoroutine(EnemySpawn());
     }

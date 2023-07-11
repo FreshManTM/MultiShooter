@@ -130,6 +130,7 @@ public class SkeletonEnemy : Enemy
     public void RPC_TakeDamage(float damage, RpcInfo info = default)
     {
         health -= damage;
+        print("taking damage " + damage);
         if (health <= 0 && !isDead)
         {
             isDead = true;

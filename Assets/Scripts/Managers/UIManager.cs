@@ -52,5 +52,6 @@ public class UIManager : MonoBehaviour
             gunManager = gm.gunManager;
         }
         killsText.text = gm.kills.ToString();
+        //killsText.text = gm.damage.ToString();
     }
 }

@@ -9,7 +9,7 @@ class ZombieEnemy : Enemy
     [SerializeField] float health;
     bool isDead;
     Transform target;
-    Animator anim;
+    [SerializeField] Animator anim;
     GameManager gm;
     [SerializeField] EnemyData data;
 
@@ -49,7 +49,6 @@ class ZombieEnemy : Enemy
 
         transform.position = spawnPos;
         health = data.MaxHelath;
-        anim = GetComponent<Animator>();
 
         isDead = false;
     }
@@ -108,6 +107,7 @@ class ZombieEnemy : Enemy
     public void RPC_TakeDamage(float damage, RpcInfo info = default)
     {
         health -= damage;
+            print("taking damage " + damage);
         if (health <= 0 && !isDead)
         {
             isDead = true;
