@@ -42,7 +42,6 @@ public abstract class Enemy : NetworkBehaviour
         {
             if (item.CompareTag("Player"))
             {
-                print("Player detected");
                 players.Add(item.transform);
             }
         }

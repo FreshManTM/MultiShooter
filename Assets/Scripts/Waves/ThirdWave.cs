@@ -4,18 +4,6 @@ using UnityEngine;
 
 public class ThirdWave : Wave
 {
-    PoolManager spawner;
-    float enemySpawnDelay;
-    float resourceSpawnDelay;
-    public override void StartSpawning(PoolManager spawner, WaveData data)
-    {
-        this.spawner = spawner;
-        enemySpawnDelay = data.waveTime / data.enemiesPerWave;
-        resourceSpawnDelay = data.waveTime / data.resourcesPerWave;
-        StartCoroutine(EnemySpawn());
-        StartCoroutine(ResourceSpawn());
-
-    }
     public override IEnumerator EnemySpawn()
     {
         float randomValue = Random.value;
@@ -27,8 +15,8 @@ public class ThirdWave : Wave
         else
             enemyNumber = 2;
 
-        spawner.EnemySpawn(enemyNumber);
-        yield return new WaitForSeconds(enemySpawnDelay);
+        _spawner.EnemySpawn(enemyNumber);
+        yield return new WaitForSeconds(_enemySpawnDelay);
         StartCoroutine(EnemySpawn());
     }
 
@@ -42,9 +30,8 @@ public class ThirdWave : Wave
             resourceNumber = 2;
         else
             resourceNumber = 3;
-        spawner.SpawnResource(resourceNumber);
-        yield return new WaitForSeconds(resourceSpawnDelay);
+        _spawner.SpawnResource(resourceNumber);
+        yield return new WaitForSeconds(_resourceSpawnDelay);
         StartCoroutine(ResourceSpawn());
-
     }
 }

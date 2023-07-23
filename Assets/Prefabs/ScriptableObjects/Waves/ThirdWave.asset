@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6bcc710c19f11cd458a977a34999dbd0, type: 3}
   m_Name: ThirdWave
   m_EditorClassIdentifier: 
-  enemiesPerWave: 60
-  resourcesPerWave: 60
-  waveTime: 300
-  restTime: 0
+  EnemiesPerWave: 30
+  ResourcesPerWave: 60
+  WaveTime: 300
+  RestTime: 0

@@ -11,7 +11,7 @@ public class GrenadeGun : Gun
     public GrenadeGun(PoolManager pool, Transform muzzle, GunData gunData) : base(pool, muzzle, gunData)
     {
         _pool = pool;
-        this._muzzle = muzzle;
+        _muzzle = muzzle;
         _gunData = gunData;
     }
     public override void Shoot()

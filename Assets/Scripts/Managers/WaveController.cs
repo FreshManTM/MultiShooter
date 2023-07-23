@@ -32,7 +32,7 @@ public class WaveController : NetworkBehaviour
             if (_waveTimer.Expired(Runner) && _waveIsActive)
             {
                 Destroy(_wave);
-                _restTimer = TickTimer.CreateFromSeconds(Runner, _waveDatas[_currentWave - 1].restTime);
+                _restTimer = TickTimer.CreateFromSeconds(Runner, _waveDatas[_currentWave - 1].RestTime);
                 _waveIsActive = false;
                 if(_wave = new ThirdWave())
                 {
@@ -60,7 +60,7 @@ public class WaveController : NetworkBehaviour
             default:
                 break;
         }
-        _waveTimer = TickTimer.CreateFromSeconds(Runner, _waveDatas[_currentWave].waveTime);
+        _waveTimer = TickTimer.CreateFromSeconds(Runner, _waveDatas[_currentWave].WaveTime);
         _currentWave++;
     }
 

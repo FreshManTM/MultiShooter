@@ -109,7 +109,6 @@ public class GunManager : NetworkBehaviour
 
     public virtual void FollowGun(Transform transform)
     {
-        print(transform.parent.transform.eulerAngles.y);
         if (_platform == Platform.PC)
         {
             Vector3 difference = Camera.main.ScreenToWorldPoint(Input.mousePosition) - transform.position;

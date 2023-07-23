@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6bcc710c19f11cd458a977a34999dbd0, type: 3}
   m_Name: SecondWave
   m_EditorClassIdentifier: 
-  enemiesPerWave: 30
-  resourcesPerWave: 30
-  waveTime: 180
-  restTime: 30
+  EnemiesPerWave: 20
+  ResourcesPerWave: 30
+  WaveTime: 160
+  RestTime: 30

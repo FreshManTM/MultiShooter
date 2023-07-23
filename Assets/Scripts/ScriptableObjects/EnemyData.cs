@@ -10,5 +10,4 @@ public class EnemyData : ScriptableObject
     public float MoveSpeed;
     public float TimeBetweenAttacks;
     public RuntimeAnimatorController AnimatorController;
-    public GameObject bullet;
 }
