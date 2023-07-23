@@ -12,17 +12,17 @@ using UnityEngine.UI;
 
 public class NetworkRunnerHandler : MonoBehaviour
 {
-    public GameObject loadingCanvas;
-    [SerializeField] InputField roomName;
-    NetworkRunner networkRunner;
+    public GameObject LoadingCanvas;
+    [SerializeField] InputField _roomName;
+    NetworkRunner _networkRunner;
     private void Awake()
     {
         NetworkRunner networkRunnerInScene = FindObjectOfType<NetworkRunner>();
-        networkRunner = GetComponent<NetworkRunner>();
-        if (networkRunnerInScene != null && networkRunnerInScene != networkRunner)
+        _networkRunner = GetComponent<NetworkRunner>();
+        if (networkRunnerInScene != null && networkRunnerInScene != _networkRunner)
         {
-            Destroy(networkRunner);
-            networkRunner = networkRunnerInScene;
+            Destroy(_networkRunner);
+            _networkRunner = networkRunnerInScene;
         }
     }
 
@@ -49,8 +49,8 @@ public class NetworkRunnerHandler : MonoBehaviour
 
     public void CreateJoinGame()
     {
-        loadingCanvas.SetActive(true);
-        var clientTask = InitializeNetworkRunner(networkRunner, GameMode.Shared, roomName.text, NetAddress.Any(), SceneManager.GetActiveScene().buildIndex + 1, null);
+        LoadingCanvas.SetActive(true);
+        var clientTask = InitializeNetworkRunner(_networkRunner, GameMode.Shared, _roomName.text, NetAddress.Any(), SceneManager.GetActiveScene().buildIndex + 1, null);
     }
     public void SetPlayerSkin(int skinNum)
     {

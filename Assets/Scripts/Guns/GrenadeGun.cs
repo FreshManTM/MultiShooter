@@ -4,21 +4,21 @@ using UnityEngine;
 
 public class GrenadeGun : Gun
 {
-    Vector3 offset = new Vector3(0, 0, -90);
-    PoolManager pool;
-    Transform muzzle;
-    GunData gunData;
+    Vector3 _offset = new Vector3(0, 0, -90);
+    PoolManager _pool;
+    Transform _muzzle;
+    GunData _gunData;
     public GrenadeGun(PoolManager pool, Transform muzzle, GunData gunData) : base(pool, muzzle, gunData)
     {
-        this.pool = pool;
-        this.muzzle = muzzle;
-        this.gunData = gunData;
+        _pool = pool;
+        this._muzzle = muzzle;
+        _gunData = gunData;
     }
     public override void Shoot()
     {
-        GameObject bullet = pool.SpawnResource(1);
-        bullet.transform.position = muzzle.position;
-        bullet.transform.rotation = Quaternion.Euler(muzzle.transform.rotation.eulerAngles + offset);
-        bullet.GetComponent<GrenadeBullet>().Init(gunData.Damage);
+        GameObject bullet = _pool.SpawnResource(1);
+        bullet.transform.position = _muzzle.position;
+        bullet.transform.rotation = Quaternion.Euler(_muzzle.transform.rotation.eulerAngles + _offset);
+        bullet.GetComponent<GrenadeBullet>().Init(_gunData.Damage);
     }
 }

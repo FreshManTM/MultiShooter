@@ -5,28 +5,25 @@ using Fusion;
 
 public abstract class Gun : NetworkBehaviour
 {
-    Vector3 offset = new Vector3(0, 0, -90);
-    PoolManager pool;
-    Transform muzzle; 
-    GunData gunData;
-    public Gun()
-    {
+    Vector3 _offset = new Vector3(0, 0, -90);
+    PoolManager _pool;
+    Transform _muzzle; 
+    GunData _gunData;
 
-    }
     public Gun(PoolManager pool, Transform muzzle, GunData gunData)
     {
-        this.pool = pool;
-        this.muzzle = muzzle;
-        this.gunData = gunData;
+        _pool = pool;
+        _muzzle = muzzle;
+        _gunData = gunData;
     }
     public abstract void Shoot();
     protected GameObject GetBullet()
     {
-        GameObject bullet = pool.SpawnResource(0);
-        bullet.transform.position = muzzle.position;
-        bullet.transform.rotation = Quaternion.Euler(muzzle.transform.rotation.eulerAngles + offset);
+        GameObject bullet = _pool.SpawnResource(0);
+        bullet.transform.position = _muzzle.position;
+        bullet.transform.rotation = Quaternion.Euler(_muzzle.transform.rotation.eulerAngles + _offset);
 
-        bullet.GetComponent<Bullet>().Init(gunData.Damage);
+        bullet.GetComponent<Bullet>().Init(_gunData.Damage);
         return bullet;
     }
 }

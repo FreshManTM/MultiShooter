@@ -5,101 +5,94 @@ using UnityEngine.InputSystem;
 using Fusion;
 public class PlayerController : NetworkBehaviour
 {
-    Rigidbody2D rb;
-    Vector2 moveDirection;
-    [SerializeField] float moveSpeed = 10f;
-    SpriteRenderer spriter;
+    Rigidbody2D _rb;
+    Vector2 _moveDirection;
+    [SerializeField] float _moveSpeed = 10f;
+    SpriteRenderer _spriter;
    
-    [SerializeField] float health;
-    [SerializeField] float maxHealth;
-    [SerializeField] Joystick moveJoystick;
-    [SerializeField]GameManager gm;
-    Animator anim;
-    bool isDead;
+    [SerializeField] float _health;
+    [SerializeField] float _maxHealth;
+    [SerializeField] Joystick _moveJoystick;
+    [SerializeField] GameManager _gm;
+    Animator _anim;
+    bool _isDead;
     public override void Spawned()
     {
-        rb = GetComponentInParent<Rigidbody2D>();
-        spriter = GetComponent<SpriteRenderer>();
-        anim = GetComponent<Animator>();
-        StartCoroutine(FindGameManager());
+        _rb = GetComponent<Rigidbody2D>();
+        _spriter = GetComponentInChildren<SpriteRenderer>();
+        _anim = GetComponentInChildren<Animator>();
+        StartCoroutine(_FindGameManager());
 
-        health = maxHealth;
-        moveJoystick = GameObject.Find("Movement Joystick").GetComponent<Joystick>();
+        _health = _maxHealth;
+        _moveJoystick = GameObject.Find("Movement Joystick").GetComponent<Joystick>();
     }
-    IEnumerator FindGameManager()
+    IEnumerator _FindGameManager()
     {
-        gm = FindObjectOfType<GameManager>();
-        if(gm == null)
+        _gm = FindObjectOfType<GameManager>();
+        if(_gm == null)
         {
             yield return new WaitForSeconds(.1f);
-            StartCoroutine(FindGameManager());
+            StartCoroutine(_FindGameManager());
         }
         else
         {
             yield return null;
         }
     }
-    void ChangeSpire()
-    {
-        spriter.sprite = null;
-    }
+
     public override void FixedUpdateNetwork()
     {
         if (!Object.HasInputAuthority)
             return;
+        
         Move();
-        anim.SetFloat("Speed", moveDirection.magnitude);
+        Flip();
 
-        if (!isDead && rb != null)
-            rb.velocity = new Vector2(moveDirection.x * moveSpeed, moveDirection.y * moveSpeed);
-
-        if (moveDirection.x != 0)
-        {
-            spriter.flipX = moveDirection.x < 0;
-        }
-
+        _anim.SetFloat("Speed", _moveDirection.magnitude);
     }
+
 
     private void Move()
     {
-        if (Mathf.Abs(moveJoystick.Horizontal) < .01f || Mathf.Abs(moveJoystick.Vertical) < .01f)
+        if (Mathf.Abs(_moveJoystick.Horizontal) > .01f || Mathf.Abs(_moveJoystick.Vertical) > .01f)
         {
-            moveDirection = new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical"));
+            _moveDirection = new Vector2(_moveJoystick.Horizontal, _moveJoystick.Vertical);
         }
         else
         {
-            moveDirection = new Vector2(moveJoystick.Horizontal, moveJoystick.Vertical);
+            _moveDirection = new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical"));
         }
+
+        if (!_isDead && _rb != null)
+            _rb.velocity = new Vector2(_moveDirection.x * _moveSpeed, _moveDirection.y * _moveSpeed);
+    }
+    private void Flip()
+    {
+        if (_moveDirection.x < 0)
+            transform.eulerAngles = new Vector3(0, 180, 0);
+        else if (_moveDirection.x > 0)
+            transform.eulerAngles = new Vector3(0, 0, 0);
     }
 
-    //void OnMove(InputValue value)
-    //{
-    //    if (!Object.HasInputAuthority)
-    //        return;
-    //    moveDirection = value.Get<Vector2>();
-    //    anim.SetFloat("Speed", moveDirection.magnitude);
-
-    //}
     public void TakeDamage(float damage)
     {
-        if(health - damage > 0)
+        if(_health - damage > 0)
         {
-            health -= damage;
+            _health -= damage;
             if(Object.HasInputAuthority)
-                gm.health = health;
+                _gm.Health = _health;
 
         }
-        else if(!isDead)
+        else if(!_isDead)
         {
-            health = 0;
-            isDead = true;
-            anim.SetTrigger("Dead");
+            _health = 0;
+            _isDead = true;
+            _anim.SetTrigger("Dead");
             Invoke(nameof(Despawn), .5f);
             if (Object.HasInputAuthority)
             {
-                gm.health = health;
-                gm.Death();
-                //gm.Death();
+                _gm.Health = _health;
+                _gm.Death();
             }
         }
     }
@@ -109,10 +102,9 @@ public class PlayerController : NetworkBehaviour
     }
     public void AddHealth(float heal)
     {
-        health += heal;
-        if (health > maxHealth)
-            health = maxHealth;
-        gm.health = health;
-
+        _health += heal;
+        if (_health > _maxHealth)
+            _health = _maxHealth;
+        _gm.Health = _health;
     }
 }

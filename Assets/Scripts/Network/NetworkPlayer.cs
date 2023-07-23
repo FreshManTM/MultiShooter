@@ -4,13 +4,12 @@ using UnityEngine;
 using Fusion;
 public class NetworkPlayer : NetworkBehaviour, IPlayerLeft
 {
-    public static NetworkPlayer Local { get; set; }
-    public Animator playerAnim;
+    [SerializeField] Animator _playerAnim;
 
-    GameManager gm;
-    GunManager gunManager;
-    [Networked(OnChanged =nameof(OnSkinChanged))] int skinNumber { get; set; }
-    [Networked(OnChanged =nameof(OnSkinChanged))]public int gunNumber { get; set; }
+    GameManager _gm;
+    GunManager _gunManager;
+    [Networked(OnChanged =nameof(OnSkinChanged))] int _skinNumber { get; set; }
+    [Networked(OnChanged =nameof(OnSkinChanged))] int _gunNumber { get; set; }
 
     static void OnSkinChanged(Changed<NetworkPlayer> changed)
     {
@@ -19,27 +18,26 @@ public class NetworkPlayer : NetworkBehaviour, IPlayerLeft
 
     void OnSpriteChanged()
     {
-        gm = FindObjectOfType<GameManager>();
-        gunManager = GetComponentInChildren<GunManager>();
+        _gm = FindObjectOfType<GameManager>();
+        _gunManager = GetComponentInChildren<GunManager>();
+        
+        _playerAnim.runtimeAnimatorController = _gm.GetPlayerAnim(_skinNumber);
 
-        playerAnim.runtimeAnimatorController = gm.GetPlayerAnim(skinNumber);
-
-        gunManager.GetComponentInChildren<SpriteRenderer>().sprite = gm.GetGunData(gunNumber).GunSprite;
-        gunManager.InitGun(gm.GetGunData(gunNumber));
+        _gunManager.GetComponentInChildren<SpriteRenderer>().sprite = _gm.GetGunData(_gunNumber).GunSprite;
+        _gunManager.InitGun(_gm.GetGunData(_gunNumber));
     }
 
     [Rpc(RpcSources.InputAuthority, RpcTargets.StateAuthority)]
     public void RPC_SetSprite(int skinNumber, int gunNumber, RpcInfo info = default)
     {
-        this.skinNumber = skinNumber;
-        this.gunNumber = gunNumber;
+        _skinNumber = skinNumber;
+        _gunNumber = gunNumber;
     }
+
     public override void Spawned()
     {
         if (Object.HasInputAuthority)
         {
-            Local = this;
-
              RPC_SetSprite(PlayerPrefs.GetInt("PlayerSkin"), Random.Range(0, 3));   
         }
         else
@@ -47,6 +45,7 @@ public class NetworkPlayer : NetworkBehaviour, IPlayerLeft
             print("Spawned Remote player");
         }
     }
+
     public void PlayerLeft(PlayerRef player)
     {
         if(player == Object.InputAuthority)

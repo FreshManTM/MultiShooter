@@ -7,7 +7,7 @@ public class SecondWave : Wave
     PoolManager spawner;
     float enemySpawnDelay;
     float resourceSpawnDelay;
-    public override void Spawn(PoolManager spawner, WaveData data)
+    public override void StartSpawning(PoolManager spawner, WaveData data)
     {
         this.spawner = spawner;
         enemySpawnDelay = data.waveTime / data.enemiesPerWave;

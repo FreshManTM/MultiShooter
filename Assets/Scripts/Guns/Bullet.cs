@@ -4,8 +4,7 @@ using UnityEngine;
 using Fusion;
 public class Bullet : NetworkBehaviour
 {
-    float damage;
-    GameManager gm;
+    float _damage;
 
     public override void FixedUpdateNetwork()
     {
@@ -13,15 +12,13 @@ public class Bullet : NetworkBehaviour
     }
     public void Init(float damage)
     {
-        this.damage = damage;
-        gm = FindObjectOfType<GameManager>();
+        _damage = damage;
     }
     void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.CompareTag("Enemy") && Object.StateAuthority == Runner.LocalPlayer)
+        if (collision.TryGetComponent<Enemy>(out Enemy enemy) && Object.StateAuthority == Runner.LocalPlayer)
         {
-            collision.GetComponent<Enemy>().TakeDamage(damage, Object);
-            gameObject.SetActive(false);
+            enemy.TakeDamage(_damage, Object);
             Invoke(nameof(Despawn), 0.05f);
         }
     }
@@ -33,9 +30,9 @@ public class Bullet : NetworkBehaviour
             Invoke(nameof(Despawn), 0.05f);
         }
     }
+
     void Despawn()
     {
         Runner.Despawn(Object);
-        
     }
 }

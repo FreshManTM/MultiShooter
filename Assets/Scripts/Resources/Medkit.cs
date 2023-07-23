@@ -6,6 +6,6 @@ public class Medkit : Resource
 {
     public override void Action(GameObject player)
     {
-        player.GetComponentInChildren<PlayerController>().AddHealth(30);
+        player.GetComponent<PlayerController>().AddHealth(30);
     }
 }

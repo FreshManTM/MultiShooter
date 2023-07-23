@@ -5,7 +5,7 @@ using Fusion;
 
 public abstract class Wave : NetworkBehaviour
 {
-    public abstract void Spawn(PoolManager spawner, WaveData data);
+    public abstract void StartSpawning(PoolManager spawner, WaveData data);
     public abstract IEnumerator EnemySpawn();
     public abstract IEnumerator ResourceSpawn();
 

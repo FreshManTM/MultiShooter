@@ -1835,8 +1835,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _interpolationDataSource: 0
-  playerPrefab: {fileID: 2856639561562216443, guid: 1910cc66b7c589a46bcd496677a18087, type: 3}
-  cameraPrefab: {fileID: 4278217512599118196, guid: ac7fe036967e95f4ca4d7d48efcb8147, type: 3}
+  _playerPrefab: {fileID: 2856639561562216443, guid: 1910cc66b7c589a46bcd496677a18087, type: 3}
+  _cameraPrefab: {fileID: 4278217512599118196, guid: ac7fe036967e95f4ca4d7d48efcb8147, type: 3}
 --- !u!114 &1174285911
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1849,8 +1849,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f5b0ea310b11aa9458288f17ce9fc0b0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  loadingCanvas: {fileID: 625345169}
-  roomName: {fileID: 515860513}
+  LoadingCanvas: {fileID: 625345169}
+  _roomName: {fileID: 515860513}
 --- !u!1 &1176317347
 GameObject:
   m_ObjectHideFlags: 0

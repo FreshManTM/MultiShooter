@@ -6,17 +6,16 @@ using UnityEngine.SceneManagement;
 using Fusion;
 public class UIManager : NetworkBehaviour
 {
-    [SerializeField] GameManager gm;
+    [SerializeField] GameManager _gm;
     [Space]
-    [SerializeField] Text ammoText;
-    [SerializeField] Text killsText;
-    [SerializeField] Text damageText;
-    [SerializeField] Slider healthSlider;
+    [SerializeField] Text _ammoText;
+    [SerializeField] Text _killsText;
+    [SerializeField] Text _damageText;
+    [SerializeField] Slider _healthSlider;
     [Space]
-    [SerializeField] GameObject endCanvas;
-    [SerializeField] Text stateText;
-    [SerializeField] Text resultText;
-
+    [SerializeField] GameObject _endCanvas;
+    [SerializeField] Text _stateText;
+    [SerializeField] Text _resultText;
 
     public override void FixedUpdateNetwork()
     {
@@ -25,31 +24,31 @@ public class UIManager : NetworkBehaviour
 
     private void SetStateUI()
     {
-        if (gm.gameState == GameState.Play)
+        if (_gm.GameState == GameState.Play)
         {
             SetText();
         }
-        else if (gm.gameState == GameState.Win)
+        else if (_gm.GameState == GameState.Win)
         {
-            stateText.text = "Victory!!!";
-            endCanvas.SetActive(true);
+            _stateText.text = "Victory!!!";
+            _endCanvas.SetActive(true);
         }
-        else if (gm.gameState == GameState.Lose)
+        else if (_gm.GameState == GameState.Lose)
         {
-            stateText.text = "Lose...";
-            endCanvas.SetActive(true);
-            resultText.text = $"Kills: {gm.kills}\nDamage: {gm.damage}";
+            _stateText.text = "Lose...";
+            _endCanvas.SetActive(true);
+            _resultText.text = $"Kills: {_gm.Kills}\nDamage: {_gm.Damage}";
         }
     }
 
     private void SetText()
     {
 
-        healthSlider.value = gm.health / 100;
-        ammoText.text = gm.ammo[0] + "/" + gm.ammo[1];
+        _healthSlider.value = _gm.Health / 100;
+        _ammoText.text = _gm.Ammo[0] + "/" + _gm.Ammo[1];
 
-        killsText.text = gm.kills.ToString("000");
-        damageText.text = gm.damage.ToString("000");
+        _killsText.text = _gm.Kills.ToString("000");
+        _damageText.text = _gm.Damage.ToString("000");
     }
     public void MenuButton()
     {

@@ -246,10 +246,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _interpolationDataSource: 0
-  health: 100
-  isDead: 0
-  bulletPrefab: {fileID: 1654422125713124334, guid: 8d5cf0d2b31e2bd48a47602312704188, type: 3}
-  target: {fileID: 0}
-  anim: {fileID: 1371394802911378962}
-  data: {fileID: 11400000, guid: 642d9fa1a0abc7a46b7d22b320da39fc, type: 2}
-  attacsTimer: 0
+  _health: 100
+  _attacsTimer: 0
+  _bulletPrefab: {fileID: 1654422125713124334, guid: 8d5cf0d2b31e2bd48a47602312704188, type: 3}
+  _anim: {fileID: 1371394802911378962}
+  _data: {fileID: 11400000, guid: 642d9fa1a0abc7a46b7d22b320da39fc, type: 2}

@@ -11,7 +11,7 @@ public abstract class Resource : NetworkBehaviour
         {
             Action(collision.gameObject);
             if(Runner.IsSharedModeMasterClient)
-                Runner.Despawn(GetComponent<NetworkObject>());
+                Runner.Despawn(Object);
 
         }
     }

@@ -7,16 +7,14 @@ using UnityEngine;
 
 class ShotGun : Gun
 {
-    Vector3 offset = new Vector3(0, 0, -90);
-    PoolManager pool;
-    Transform muzzle;
-    GunData gunData;
-    float shotgunSpread = 8;
+    Vector3 _offset = new Vector3(0, 0, -90);
+    Transform _muzzle;
+    GunData _gunData;
+    const float SPREAD = 8;
     public  ShotGun(PoolManager pool, Transform muzzle, GunData gunData): base(pool, muzzle, gunData)
     {
-        this.pool = pool;
-        this.muzzle = muzzle;
-        this.gunData = gunData;
+        _muzzle = muzzle;
+        _gunData = gunData;
     }
     public override void Shoot()
     {
@@ -24,10 +22,10 @@ class ShotGun : Gun
         for (int i = 0; i < 3; i++)
         {
             GameObject bullet = GetBullet();
-            float bulletOffset = (i - (3 / 2)) * shotgunSpread + offset.z;
-            bullet.transform.rotation = Quaternion.Euler(muzzle.transform.eulerAngles.x, muzzle.transform.eulerAngles.y, muzzle.transform.eulerAngles.z + bulletOffset);
+            float bulletOffset = (i - (3 / 2)) * SPREAD + _offset.z;
+            bullet.transform.rotation = Quaternion.Euler(_muzzle.transform.eulerAngles.x, _muzzle.transform.eulerAngles.y, _muzzle.transform.eulerAngles.z + bulletOffset);
         
-            bullet.GetComponent<Bullet>().Init(gunData.Damage);
+            bullet.GetComponent<Bullet>().Init(_gunData.Damage);
         }
 
     }

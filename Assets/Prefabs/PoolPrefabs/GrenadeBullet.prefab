@@ -127,7 +127,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _interpolationDataSource: 0
-  particle: {fileID: 957134557258001485, guid: 66d7366056f116d499529943ef01022c, type: 3}
+  _particle: {fileID: 957134557258001485, guid: 66d7366056f116d499529943ef01022c, type: 3}
 --- !u!114 &6481389724807675702
 MonoBehaviour:
   m_ObjectHideFlags: 0

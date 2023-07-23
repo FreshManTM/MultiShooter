@@ -5,24 +5,27 @@ using Fusion;
 
 public class SkeletonBullet : NetworkBehaviour
 {
-    Vector3 target;
-    float damage;
-    float lifeTimer;
+    Vector3 _target;     //The direction where the bullet should fly
+    float _damage;       //Bullet damage
+    float _lifeTimer;    //Bullet life time
+
     void Update()
     {
-        if (lifeTimer <= 0)
+        if (_lifeTimer <= 0)
+        {
             Runner.Despawn(GetComponent<NetworkObject>());
+        }
         else
         {
-            lifeTimer -= Time.deltaTime;
+            _lifeTimer -= Time.deltaTime;
         }
         transform.Translate(Vector3.up * 10 * Time.deltaTime);
     }
     public void Init(Vector3 target, float damage)
     {
-        this.target = target;
-        this.damage = damage;
-        lifeTimer = 4f;
+        _target = target;
+        _damage = damage;
+        _lifeTimer = 4f;
 
         Vector3 toTarget = target - transform.position;
         float angle = Mathf.Atan2(toTarget.y, toTarget.x) * Mathf.Rad2Deg - 90;
@@ -30,9 +33,9 @@ public class SkeletonBullet : NetworkBehaviour
     }
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.CompareTag("Player"))
+        if (collision.TryGetComponent<PlayerController>(out PlayerController playerController))
         {
-            collision.GetComponentInChildren<PlayerController>().TakeDamage(damage);
+            playerController.TakeDamage(_damage);
             Invoke(nameof(Despawn), 0.05f);
         }
     }

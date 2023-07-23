@@ -5,43 +5,38 @@ using Fusion;
 using UnityEngine.UI;
 public class WaveController : NetworkBehaviour
 {
-    [SerializeField] PoolManager pool;
-    [SerializeField] GameManager gm;
-    [SerializeField] Text timerText;
-    [SerializeField] WaveData[] waveDatas;
-    Wave wave;
+    [SerializeField] PoolManager _pool;
+    [SerializeField] GameManager _gm;
+    [SerializeField] Text _timerText;
+    [SerializeField] WaveData[] _waveDatas;
+    Wave _wave;
 
-    [Networked] public TickTimer waveTimer { get; set; }
-    [Networked] public TickTimer restTimer { get; set; }
-    int currentWave;
-    bool waveIsActive;
-    public override void Spawned()
-    {
-        //if (Runner.IsSharedModeMasterClient)
-            //restTimer = TickTimer.CreateFromSeconds(Runner, 5);
+    [Networked] TickTimer _waveTimer { get; set; }
+    [Networked] TickTimer _restTimer { get; set; }
+    int _currentWave;
+    bool _waveIsActive;
 
-    }
     public override void FixedUpdateNetwork()
     {
         if (Runner.IsSharedModeMasterClient)
         {
-            if (restTimer.Expired(Runner) && !waveIsActive)
+            if (_restTimer.Expired(Runner) && !_waveIsActive)
             {
                 SetWave();
-                if (wave != null)
+                if (_wave != null)
                 {
-                    wave.Spawn(pool, waveDatas[currentWave - 1]);
-                    waveIsActive = true;
+                    _wave.StartSpawning(_pool, _waveDatas[_currentWave - 1]);
+                    _waveIsActive = true;
                 }
             }
-            if (waveTimer.Expired(Runner) && waveIsActive)
+            if (_waveTimer.Expired(Runner) && _waveIsActive)
             {
-                Destroy(wave);
-                restTimer = TickTimer.CreateFromSeconds(Runner, waveDatas[currentWave - 1].restTime);
-                waveIsActive = false;
-                if(wave = new ThirdWave())
+                Destroy(_wave);
+                _restTimer = TickTimer.CreateFromSeconds(Runner, _waveDatas[_currentWave - 1].restTime);
+                _waveIsActive = false;
+                if(_wave = new ThirdWave())
                 {
-                    gm.RPC_SetState(GameState.Win);
+                    _gm.RPC_SetState(GameState.Win);
                 }
             }
         }
@@ -51,44 +46,40 @@ public class WaveController : NetworkBehaviour
 
     private void SetWave()
     {
-        switch (currentWave)
+        switch (_currentWave)
         {
             case 0:
-                currentWave++;
-                wave = gameObject.AddComponent<FirstWave>();
-                waveTimer = TickTimer.CreateFromSeconds(Runner, waveDatas[currentWave - 1].waveTime);
+                _wave = gameObject.AddComponent<FirstWave>();
                 break;
             case 1:
-                currentWave++;
-
-                wave = gameObject.AddComponent<SecondWave>();
-                waveTimer = TickTimer.CreateFromSeconds(Runner, waveDatas[currentWave - 1].waveTime);
+                _wave = gameObject.AddComponent<SecondWave>();
+                break;
+            case 2:
+                _wave = gameObject.AddComponent<ThirdWave>();
                 break;
             default:
-                currentWave++;
-                print("YOU WIN");
                 break;
-
         }
+        _waveTimer = TickTimer.CreateFromSeconds(Runner, _waveDatas[_currentWave].waveTime);
+        _currentWave++;
     }
 
     private void SetTimerText()
     {
-        if (!restTimer.ExpiredOrNotRunning(Runner))
+        if (!_restTimer.ExpiredOrNotRunning(Runner))
         {
-            timerText.color = Color.white;
-            timerText.text = ((int)restTimer.RemainingTime(Runner)).ToString();
+            _timerText.color = Color.white;
+            _timerText.text = ((int)_restTimer.RemainingTime(Runner)).ToString();
         }
-        else if(!waveTimer.ExpiredOrNotRunning(Runner))
+        else if(!_waveTimer.ExpiredOrNotRunning(Runner))
         {
-            timerText.color = Color.red;
-            timerText.text = ((int)waveTimer.RemainingTime(Runner)).ToString();
-
+            _timerText.color = Color.red;
+            _timerText.text = ((int)_waveTimer.RemainingTime(Runner)).ToString();
         }
     }
 
     public void StartGameTimer()
     {
-        restTimer = TickTimer.CreateFromSeconds(Runner, 5);
+        _restTimer = TickTimer.CreateFromSeconds(Runner, 5);
     }
 }

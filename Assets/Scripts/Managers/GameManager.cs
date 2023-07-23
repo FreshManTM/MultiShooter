@@ -13,41 +13,40 @@ public enum GameState
 }
 public class GameManager : NetworkBehaviour
 {
-    [SerializeField] RuntimeAnimatorController[] PlayerAnim;
-    [SerializeField] RuntimeAnimatorController[] EnemyAnim;
-    [SerializeField] GunData[] gunData;
+    [SerializeField] RuntimeAnimatorController[] _playerAnim;
+    [SerializeField] RuntimeAnimatorController[] _enemyAnim;
+    [SerializeField] GunData[] _gunData;
 
-    public int kills { get; set; }
-    public float damage { get; set; }
-    public float health { get; set; }
-    [Networked] public GameState gameState { get; set; }
+    public int Kills { get; set; }
+    public float Damage { get; set; }
+    public float Health { get; set; }
+    [Networked] public GameState GameState { get; set; }
     
-    public int[] ammo;
-    GunManager gunManager;
+    public int[] Ammo;
+    GunManager _gunManager;
     public override void Spawned()
     {
         RPC_SetState(GameState.Play);
-        health = 100;
+        Health = 100;
     }
     public override void FixedUpdateNetwork()
     {
-        if (gunManager != null)
-            ammo = gunManager.GetAmmo();
+        if (_gunManager != null)
+            Ammo = _gunManager.GetAmmo();
     }
     public void SetGun(GunManager gun)
     {
-        gunManager = gun;
+        _gunManager = gun;
     }
     public void Death()
     {
-       
-        gunManager.gameObject.SetActive(false);
+        _gunManager.gameObject.SetActive(false);
         Invoke(nameof(ChangeSpectator), 2);
     }
 
     void ChangeSpectator()
     {
-        if(FindObjectOfType<GunManager>()!= null)
+        if(FindObjectOfType<GunManager>())
         {
             GameObject player = FindObjectOfType<GunManager>().gameObject;
             CinemachineVirtualCamera camera = FindObjectOfType<CinemachineVirtualCamera>();
@@ -62,9 +61,9 @@ public class GameManager : NetworkBehaviour
     [Rpc]
     public void RPC_SetState(GameState state, RpcInfo info = default)
     {
-        gameState = state;
+        GameState = state;
     }
-    public RuntimeAnimatorController GetPlayerAnim(int index) { return PlayerAnim[index]; }
-    public RuntimeAnimatorController GetEnemyAnim(int index) { return EnemyAnim[index]; }
-    public GunData GetGunData(int index){ return gunData[index]; }
+    public RuntimeAnimatorController GetPlayerAnim(int index) { return _playerAnim[index]; }
+    public RuntimeAnimatorController GetEnemyAnim(int index) { return _enemyAnim[index]; }
+    public GunData GetGunData(int index){ return _gunData[index]; }
 }

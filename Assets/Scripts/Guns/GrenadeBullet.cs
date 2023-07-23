@@ -7,9 +7,9 @@ using UnityEngine;
 using Fusion;
 class GrenadeBullet: NetworkBehaviour
 {
-    [SerializeField] ParticleSystem particle;
-    float damage;
-    Collider2D[] hittedEnemies;
+    [SerializeField] ParticleSystem _particle;
+    float _damage;
+    Collider2D[] _hitEnemies;
 
     public override void FixedUpdateNetwork()
     {
@@ -17,21 +17,21 @@ class GrenadeBullet: NetworkBehaviour
     }
     public void Init(float damage)
     {
-        this.damage = damage;
+        _damage = damage;
     }
     void OnTriggerEnter2D(Collider2D collision)
     {
         if (!collision.CompareTag("Enemy"))
             return;
-        hittedEnemies = Physics2D.OverlapCircleAll(transform.position, 3);
-        Instantiate(particle, collision.transform.position, Quaternion.identity);
-        if (hittedEnemies != null)
+        _hitEnemies = Physics2D.OverlapCircleAll(transform.position, 3);
+        Instantiate(_particle, collision.transform.position, Quaternion.identity);
+        if (_hitEnemies != null)
         {
-            foreach (var enemy in hittedEnemies)
+            foreach (var hitEnemy in _hitEnemies)
             {
-                if (enemy.CompareTag("Enemy"))
+                if (hitEnemy.TryGetComponent<Enemy>(out Enemy enemy))
                 {
-                    enemy.GetComponent<Enemy>().TakeDamage(damage, Object);
+                    enemy.TakeDamage(_damage, Object);
                 }
             }
             Runner.Despawn(Object);

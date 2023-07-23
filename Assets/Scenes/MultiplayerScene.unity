@@ -265,17 +265,17 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _interpolationDataSource: 0
-  resourcePrefabs:
+  _resourcePrefabs:
   - {fileID: 4122565992612807282, guid: 00818f04400b8354c96f7dbafdd74b81, type: 3}
   - {fileID: 104353572657452932, guid: 6f2f85c36b682af4a80124cf8138d267, type: 3}
   - {fileID: 104353572657452932, guid: 8842ea4695a5b2343b9c06c7c774599b, type: 3}
   - {fileID: 760539328115533982, guid: 80f5d57082a26f843a5d26693908db22, type: 3}
   - {fileID: 3373654225393688831, guid: 4a5a2e0f3183c094d8e403a2c116ff06, type: 3}
-  enemyPrefabs:
+  _enemyPrefabs:
   - {fileID: 1371394802911378965, guid: 57f1c5c0873659c4c840c221007be9c2, type: 3}
   - {fileID: 1371394802911378965, guid: f337b6cd969fb51419c1a6ce1679ae8f, type: 3}
   - {fileID: 1371394802911378965, guid: feb6dc80bad00b04e8b366fbc64109e6, type: 3}
-  spawnPoints:
+  _spawnPoints:
   - {fileID: 1220401586}
   - {fileID: 1923914764}
   - {fileID: 1050685831}
@@ -292,7 +292,7 @@ MonoBehaviour:
   - {fileID: 856286857}
   - {fileID: 2053589312}
   - {fileID: 70769372}
-  gm: {fileID: 2005373303}
+  _gm: {fileID: 2005373303}
 --- !u!4 &100775012
 Transform:
   m_ObjectHideFlags: 0
@@ -727,10 +727,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _interpolationDataSource: 0
-  pool: {fileID: 100775011}
-  gm: {fileID: 0}
-  timerText: {fileID: 1247306444}
-  waveDatas:
+  _pool: {fileID: 100775011}
+  _gm: {fileID: 2005373303}
+  _timerText: {fileID: 1247306444}
+  _waveDatas:
   - {fileID: 11400000, guid: 94ee20b58bc3403409bb6999561d0b3d, type: 2}
   - {fileID: 11400000, guid: 2c552962829ad4a4590188cc47863660, type: 2}
   - {fileID: 11400000, guid: f294bdd3a9a79ff43ab4edc28db5c2b0, type: 2}
@@ -82770,14 +82770,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _interpolationDataSource: 0
-  gm: {fileID: 2005373303}
-  ammoText: {fileID: 414764789}
-  killsText: {fileID: 1097952291}
-  damageText: {fileID: 1289362706}
-  healthSlider: {fileID: 1265208622}
-  endCanvas: {fileID: 1791672680}
-  stateText: {fileID: 785550160}
-  resultText: {fileID: 50713634}
+  _gm: {fileID: 2005373303}
+  _ammoText: {fileID: 414764789}
+  _killsText: {fileID: 1097952291}
+  _damageText: {fileID: 1289362706}
+  _healthSlider: {fileID: 1265208622}
+  _endCanvas: {fileID: 1791672680}
+  _stateText: {fileID: 785550160}
+  _resultText: {fileID: 50713634}
 --- !u!114 &855493952
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -96576,21 +96576,20 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _interpolationDataSource: 0
-  PlayerAnim:
+  _playerAnim:
   - {fileID: 9100000, guid: 039196402ecb866408d103d4f5acbe39, type: 2}
   - {fileID: 22100000, guid: 5c3a4256bda87544c9adcb9e28fe8ee3, type: 2}
   - {fileID: 22100000, guid: 378ba95c09851b342ac5dbb12b63716d, type: 2}
-  EnemyAnim:
+  _enemyAnim:
+  - {fileID: 9100000, guid: f2855d618fc8d9c499189d3f39b9cbbc, type: 2}
   - {fileID: 22100000, guid: 050556270436d4f4288557291a1a99c0, type: 2}
   - {fileID: 22100000, guid: 12cfc8b2360c2fc4499d4f6f6607671a, type: 2}
-  - {fileID: 22100000, guid: 8d1d920724ffb8a409ce0e458dc4b7a9, type: 2}
-  gunData:
+  _gunData:
   - {fileID: 11400000, guid: 39e855f52dfc2cd4baa2c84379f40bec, type: 2}
   - {fileID: 11400000, guid: b76eb3ed501809b4a9f0d12e0ba2b2e4, type: 2}
   - {fileID: 11400000, guid: 70a890b5bf94f1c4a8cf46919bba9400, type: 2}
-  - {fileID: 11400000, guid: 44e4cf7d9d5b395449260581b5ccc10e, type: 2}
-  _gameState: 0
-  ammo: 
+  _GameState: 0
+  Ammo: 
 --- !u!4 &2005373304
 Transform:
   m_ObjectHideFlags: 0

@@ -13,24 +13,24 @@ using Fusion;
  */
 public class PoolManager : NetworkBehaviour
 {
-    [SerializeField] GameObject[] resourcePrefabs;
-    [SerializeField] GameObject[] enemyPrefabs;
-    [SerializeField] Transform[] spawnPoints;
-    [SerializeField] GameManager gm;
+    [SerializeField] GameObject[] _resourcePrefabs;
+    [SerializeField] GameObject[] _enemyPrefabs;
+    [SerializeField] Transform[] _spawnPoints;
+    [SerializeField] GameManager _gm;
 
-    GameObject select;
+    GameObject _select;
 
     public GameObject SpawnResource(int index)
     {
         Vector2 spawnPos = new Vector2(Random.Range(-25, 25), Random.Range(-25, 25));
-        select = Runner.Spawn(resourcePrefabs[index], spawnPos, Quaternion.identity, Object.InputAuthority).gameObject;
-        return select;
+        _select = Runner.Spawn(_resourcePrefabs[index], spawnPos, Quaternion.identity, Object.InputAuthority).gameObject;
+        return _select;
     }
     public GameObject EnemySpawn(int index)
     {
-        select = Runner.Spawn(enemyPrefabs[index], Vector2.zero, Quaternion.identity, Object.InputAuthority).gameObject;
-        select.GetComponent<Enemy>().Init(gm, spawnPoints[Random.Range(0, spawnPoints.Length)].position);
-        return select;
+        _select = Runner.Spawn(_enemyPrefabs[index], Vector2.zero, Quaternion.identity, Object.InputAuthority).gameObject;
+        _select.GetComponent<Enemy>().Init(_gm, _spawnPoints[Random.Range(0, _spawnPoints.Length)].position);
+        return _select;
     }
 }
 

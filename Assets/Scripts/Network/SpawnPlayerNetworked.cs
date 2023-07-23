@@ -8,14 +8,14 @@ using Cinemachine;
 using UnityEngine.UI;
 public class SpawnPlayerNetworked : NetworkBehaviour, INetworkRunnerCallbacks
 {
-    [SerializeField] NetworkPlayer playerPrefab;
-    [SerializeField] GameObject cameraPrefab;
-    int playersCount;
+    [SerializeField] NetworkPlayer _playerPrefab;
+    [SerializeField] GameObject _cameraPrefab;
+    int _playersCount;
     public void OnPlayerJoined(NetworkRunner runner, PlayerRef player)
     {
         print("Player joined");
-        playersCount++;
-        if(playersCount == 2 && runner.IsSharedModeMasterClient)
+        _playersCount++;
+        if(_playersCount == 2 && runner.IsSharedModeMasterClient)
         {
             FindObjectOfType<WaveController>().StartGameTimer();
         }
@@ -26,17 +26,16 @@ public class SpawnPlayerNetworked : NetworkBehaviour, INetworkRunnerCallbacks
         if (runner.Topology == SimulationConfig.Topologies.Shared)
         {
             print("OnSceneLoadDone. Local player spawn");
-            GameObject playerObj = runner.Spawn(playerPrefab, Vector2.zero, Quaternion.identity, runner.LocalPlayer).gameObject;
+            GameObject playerObj = runner.Spawn(_playerPrefab, Vector2.zero, Quaternion.identity, runner.LocalPlayer).gameObject;
 
-            GameObject cameraObj = Instantiate(cameraPrefab);
+            GameObject cameraObj = Instantiate(_cameraPrefab);
             cameraObj.GetComponentInChildren<CinemachineVirtualCamera>().Follow = playerObj.transform;
-            GetComponent<NetworkRunnerHandler>().loadingCanvas.SetActive(false);
-            //Runner.SetPlayerObject(playerObj.GetComponent<NetworkObject>().InputAuthority, playerObj.GetComponent<NetworkObject>());
+            GetComponent<NetworkRunnerHandler>().LoadingCanvas.SetActive(false);
         }
     }
     public void OnPlayerLeft(NetworkRunner runner, PlayerRef player)
     {
-        playersCount--;
+        _playersCount--;
     }
 
     public void OnInput(NetworkRunner runner, NetworkInput input){}
