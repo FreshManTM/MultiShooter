@@ -6,7 +6,7 @@ using Fusion;
 public class SkeletonBullet : NetworkBehaviour
 {
     Vector3 _target;     //The direction where the bullet should fly
-    float _damage;       //Bullet damage
+    float _damage = 10;       //Bullet damage
     float _lifeTimer;    //Bullet life time
 
     void Update()

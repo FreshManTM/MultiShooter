@@ -15,6 +15,5 @@ MonoBehaviour:
   MaxHelath: 100
   Damage: 10
   MoveSpeed: 20
-  TimeBetweenAttacks: 1
+  TimeBetweenAttacks: 1.5
   AnimatorController: {fileID: 22100000, guid: 12cfc8b2360c2fc4499d4f6f6607671a, type: 2}
-  bullet: {fileID: 1654422125713124334, guid: 8d5cf0d2b31e2bd48a47602312704188, type: 3}
