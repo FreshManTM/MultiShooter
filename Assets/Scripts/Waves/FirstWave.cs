@@ -6,7 +6,7 @@ public class FirstWave : Wave
 {
     public override IEnumerator EnemySpawn()
     {
-        _spawner.EnemySpawn(2);
+        _spawner.EnemySpawn(0);
         yield return new WaitForSeconds(_enemySpawnDelay);
         StartCoroutine(EnemySpawn());
     }
